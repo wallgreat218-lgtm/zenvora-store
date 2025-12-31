@@ -1,0 +1,38 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="140" y1="90" x2="1060" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#070A12"/>
+      <stop offset="0.55" stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#050711"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(920 260) rotate(120) scale(650 420)">
+      <stop stop-color="#A78BFA" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#A78BFA" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="470" y1="240" x2="730" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#F8FAFC" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="520" y1="360" x2="680" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA" stop-opacity="0.92"/>
+      <stop offset="0.55" stop-color="#60A5FA" stop-opacity="0.90"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0.88"/>
+    </linearGradient>
+    <filter id="shadow" x="360" y="120" width="480" height="760" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="28" stdDeviation="30" flood-color="#000" flood-opacity="0.50"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="900" rx="64" fill="url(#bg)"/>
+  <rect width="1200" height="900" rx="64" fill="url(#glow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="515" y="150" width="170" height="600" rx="60" fill="url(#metal)" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <rect x="485" y="220" width="230" height="360" rx="70" fill="url(#metal)" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <rect x="505" y="250" width="190" height="300" rx="58" fill="#050914"/>
+    <rect x="525" y="270" width="150" height="260" rx="46" fill="url(#screen)"/>
+
+    <circle cx="600" cy="400" r="34" fill="#0B1220" fill-opacity="0.55"/>
+    <path d="M580 400 L596 416 L625 384" stroke="#FFFFFF" stroke-opacity="0.70" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

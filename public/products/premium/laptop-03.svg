@@ -1,0 +1,39 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="90" x2="1080" y2="810" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050711"/>
+      <stop offset="0.55" stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#070A12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(880 700) rotate(-20) scale(650 430)">
+      <stop stop-color="#22C55E" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#22C55E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="screen" x1="330" y1="230" x2="870" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34D399" stop-opacity="0.92"/>
+      <stop offset="0.6" stop-color="#60A5FA" stop-opacity="0.90"/>
+      <stop offset="1" stop-color="#A78BFA" stop-opacity="0.88"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="250" y1="610" x2="950" y2="740" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC" stop-opacity="0.14"/>
+      <stop offset="0.5" stop-color="#F8FAFC" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#F8FAFC" stop-opacity="0.15"/>
+    </linearGradient>
+    <filter id="shadow" x="160" y="145" width="880" height="675" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="30" stdDeviation="30" flood-color="#000" flood-opacity="0.52"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="900" rx="64" fill="url(#bg)"/>
+  <rect width="1200" height="900" rx="64" fill="url(#glow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="280" y="200" width="640" height="395" rx="26" fill="#050914" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <rect x="312" y="230" width="576" height="335" rx="18" fill="url(#screen)"/>
+    <path d="M320 485 C450 520, 560 500, 690 540" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="2"/>
+    <circle cx="600" cy="214" r="5" fill="#FFFFFF" fill-opacity="0.24"/>
+
+    <path d="M250 610 H950 L1010 735 H190 L250 610 Z" fill="url(#metal)" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <rect x="520" y="642" width="160" height="10" rx="5" fill="#000" fill-opacity="0.25"/>
+  </g>
+</svg>

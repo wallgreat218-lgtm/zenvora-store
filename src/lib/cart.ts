@@ -15,6 +15,11 @@ export function getCart(): CartItem[] {
 export function saveCart(items: CartItem[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem(KEY, JSON.stringify(items));
+  try {
+    window.dispatchEvent(new Event("zenvora_cart"));
+  } catch (e) {
+    // no-op
+  }
 }
 
 export function addToCart(slug: string, qty = 1) {

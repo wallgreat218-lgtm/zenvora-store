@@ -1,0 +1,53 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="60" x2="1080" y2="840" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="0.55" stop-color="#111B33"/>
+      <stop offset="1" stop-color="#0A0F1D"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(260 190) rotate(38) scale(520 340)">
+      <stop stop-color="#7C3AED" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(940 720) rotate(-20) scale(520 380)">
+      <stop stop-color="#06B6D4" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#06B6D4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="frame" x1="475" y1="150" x2="730" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#F8FAFC" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="520" y1="230" x2="700" y2="670" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#60A5FA" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="shadow" x="380" y="110" width="440" height="760" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="26" stdDeviation="28" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+    <filter id="glass" x="0" y="0" width="1200" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="900" rx="64" fill="url(#bg)"/>
+  <rect width="1200" height="900" rx="64" fill="url(#glowA)"/>
+  <rect width="1200" height="900" rx="64" fill="url(#glowB)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="450" y="150" width="300" height="600" rx="54" fill="url(#frame)" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <rect x="470" y="175" width="260" height="550" rx="44" fill="#060B18"/>
+    <rect x="485" y="205" width="230" height="490" rx="36" fill="url(#screen)"/>
+
+    <rect x="485" y="205" width="230" height="490" rx="36" fill="none" stroke="#FFFFFF" stroke-opacity="0.14"/>
+    <path d="M505 240 C560 210, 640 230, 695 205" stroke="#FFFFFF" stroke-opacity="0.20" stroke-width="2"/>
+
+    <circle cx="600" cy="193" r="6" fill="#FFFFFF" fill-opacity="0.40"/>
+    <rect x="560" y="715" width="80" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.18"/>
+  </g>
+
+  <g opacity="0.18" filter="url(#glass)">
+    <path d="M70 180 C210 120, 350 120, 490 180" stroke="#FFFFFF" stroke-width="1"/>
+    <path d="M710 740 C860 800, 1000 800, 1130 740" stroke="#FFFFFF" stroke-width="1"/>
+  </g>
+</svg>

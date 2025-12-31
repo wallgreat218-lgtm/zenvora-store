@@ -1,0 +1,38 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="70" x2="1080" y2="830" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#070A12"/>
+      <stop offset="0.55" stop-color="#121827"/>
+      <stop offset="1" stop-color="#050711"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(760 220) rotate(120) scale(560 380)">
+      <stop stop-color="#F97316" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#F97316" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="frame" x1="450" y1="145" x2="760" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#F8FAFC" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="480" y1="230" x2="740" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDBA74" stop-opacity="0.96"/>
+      <stop offset="0.55" stop-color="#FB7185" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#60A5FA" stop-opacity="0.90"/>
+    </linearGradient>
+    <filter id="shadow" x="360" y="95" width="480" height="820" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="28" stdDeviation="28" flood-color="#000" flood-opacity="0.50"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="900" rx="64" fill="url(#bg)"/>
+  <rect width="1200" height="900" rx="64" fill="url(#glow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="435" y="145" width="330" height="630" rx="60" fill="url(#frame)" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <rect x="455" y="172" width="290" height="575" rx="48" fill="#040713"/>
+    <rect x="475" y="205" width="250" height="510" rx="40" fill="url(#screen)"/>
+
+    <path d="M475 545 C535 505, 660 520, 725 470" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="2"/>
+    <circle cx="600" cy="185" r="7" fill="#FFFFFF" fill-opacity="0.35"/>
+    <rect x="565" y="735" width="70" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.16"/>
+  </g>
+</svg>

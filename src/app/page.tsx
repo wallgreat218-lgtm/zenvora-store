@@ -1,16 +1,19 @@
-import Link from "next/link";
+import DealsCarousel from "../components/DealsCarousel";
+import CategoryGrid from "../components/CategoryGrid";
+import Hero from "../components/Hero";
+import Reveal from "../components/Reveal";
+import { products } from "../lib/products";
 
 export default function Home() {
   return (
-    <>
-      <section>
-        <img src="/banner.png" alt="Banner" style={{ width: "100%", height: 300, objectFit: "cover" }} />
-      </section>
-      <section style={{ marginTop: 24 }}>
-        <h1>Welcome to ZenVora</h1>
-        <p>Electronics and accessories.</p>
-        <Link href="/shop"><button className="btn" style={{ marginTop: 12 }}>Shop Now</button></Link>
-      </section>
-    </>
+    <div className="space-y-10">
+      <Reveal>
+        <Hero />
+      </Reveal>
+      <CategoryGrid />
+      <Reveal delay={0.05}>
+        <DealsCarousel products={products} />
+      </Reveal>
+    </div>
   );
 }
