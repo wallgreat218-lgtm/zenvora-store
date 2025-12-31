@@ -51,6 +51,16 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" }
         },
+        "gradient-drift": {
+          "0%": { backgroundPosition: "0% 40%" },
+          "50%": { backgroundPosition: "100% 55%" },
+          "100%": { backgroundPosition: "0% 40%" }
+        },
+        "parallax-float": {
+          "0%": { transform: "translate3d(0px, 0px, 0)" },
+          "50%": { transform: "translate3d(0px, -6px, 0)" },
+          "100%": { transform: "translate3d(0px, 0px, 0)" }
+        },
         "shine": {
           "0%": { transform: "translateX(-120%)" },
           "100%": { transform: "translateX(220%)" }
@@ -58,6 +68,8 @@ const config: Config = {
       },
       animation: {
         "fade-up": "fade-up 600ms ease-out both",
+        "gradient-drift": "gradient-drift 14s ease-in-out infinite",
+        "parallax-float": "parallax-float 7s ease-in-out infinite",
         "shine": "shine 1400ms ease-in-out infinite"
       }
     }

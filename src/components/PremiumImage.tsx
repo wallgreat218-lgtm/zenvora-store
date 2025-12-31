@@ -36,10 +36,11 @@ export default function PremiumImage(
       <div className={cn("absolute inset-0", className)} aria-label={alt} role="img">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/18 via-background/40 to-accent/18" />
         <div
-          className="absolute inset-0 opacity-80"
+          className="absolute inset-0 animate-gradient-drift opacity-80 motion-reduce:animate-none"
           style={{
             background:
               "radial-gradient(700px 420px at 35% 10%, hsl(var(--accent) / 0.22), transparent 60%), radial-gradient(720px 520px at 80% 90%, hsl(var(--primary) / 0.18), transparent 60%)",
+            backgroundSize: "140% 140%",
           }}
         />
         <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent" />
@@ -49,7 +50,7 @@ export default function PremiumImage(
         <div className="absolute inset-0 -translate-x-[120%] animate-shine" style={{ background: "linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.10), transparent)" }} />
 
         <div className="relative flex h-full w-full items-center justify-center p-6">
-          <div className="relative">
+          <div className="relative animate-parallax-float motion-reduce:animate-none">
             <div className="absolute -inset-10 rounded-[32px] bg-primary/10 blur-2xl" />
             <div className="relative inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/60 bg-background/30 shadow-soft backdrop-blur">
               <Icon className="h-8 w-8 text-foreground/80" />
