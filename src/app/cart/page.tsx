@@ -1,6 +1,7 @@
 "use client";
 import { getCart, clearCart } from "../../lib/cart";
-import { products } from "../../lib/products";
+import { products } from "../../data/products";
+import { missingPremiumImageSlugs } from "../../data/missing-premium-images";
 import Link from "next/link";
 import PremiumImage from "../../components/PremiumImage";
 import { useRouter } from "next/navigation";
@@ -8,7 +9,13 @@ import { useRouter } from "next/navigation";
 export default function CartPage() {
   const router = useRouter();
   const items = typeof window !== "undefined" ? getCart() : [];
-  const detailed = items.map((it) => ({ ...it, product: products.find((p) => p.slug === it.slug) }));
+  const missing = new Set<string>(missingPremiumImageSlugs as unknown as string[]);
+  const detailed = items.map((it) => {
+    const product = products.find((p) => p.slug === it.slug);
+    if (!product) return { ...it, product };
+    const image = missing.has(product.slug) ? `/products/${product.slug}.svg` : product.image;
+    return { ...it, product: { ...product, image } };
+  });
   const total = detailed.reduce((s, it) => s + (it.product ? it.product.price * it.quantity : 0), 0);
 
   return (

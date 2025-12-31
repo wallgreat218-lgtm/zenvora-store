@@ -61,6 +61,10 @@ const config: Config = {
           "50%": { transform: "translate3d(0px, -6px, 0)" },
           "100%": { transform: "translate3d(0px, 0px, 0)" }
         },
+        marquee: {
+          "0%": { transform: "translate3d(0,0,0)" },
+          "100%": { transform: "translate3d(-50%,0,0)" }
+        },
         "shine": {
           "0%": { transform: "translateX(-120%)" },
           "100%": { transform: "translateX(220%)" }
@@ -70,6 +74,7 @@ const config: Config = {
         "fade-up": "fade-up 600ms ease-out both",
         "gradient-drift": "gradient-drift 14s ease-in-out infinite",
         "parallax-float": "parallax-float 7s ease-in-out infinite",
+        marquee: "marquee 60s linear infinite",
         "shine": "shine 1400ms ease-in-out infinite"
       }
     }

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
-import type { Product } from "../lib/products";
+import type { Product } from "../data/products";
 import ProductCard from "./ProductCard";
 
 export default function DealsCarousel({ products }: { products: Product[] }) {

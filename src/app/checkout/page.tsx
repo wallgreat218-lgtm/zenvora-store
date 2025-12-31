@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getCart, clearCart } from "../../lib/cart";
-import { products } from "../../lib/products";
+import { products } from "../../data/products";
+import { missingPremiumImageSlugs } from "../../data/missing-premium-images";
 
 type Step = "shipping" | "payment";
 
@@ -25,9 +26,16 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<Step>("shipping");
 
   const items = typeof window !== "undefined" ? getCart() : [];
+  const missing = useMemo(() => new Set<string>(missingPremiumImageSlugs as unknown as string[]), []);
   const detailed = useMemo(
-    () => items.map((it) => ({ ...it, product: products.find((p) => p.slug === it.slug) })),
-    [items]
+    () =>
+      items.map((it) => {
+        const product = products.find((p) => p.slug === it.slug);
+        if (!product) return { ...it, product };
+        const image = missing.has(product.slug) ? `/products/${product.slug}.svg` : product.image;
+        return { ...it, product: { ...product, image } };
+      }),
+    [items, missing]
   );
   const subtotal = useMemo(
     () => detailed.reduce((s, it) => s + (it.product ? it.product.price * it.quantity : 0), 0),

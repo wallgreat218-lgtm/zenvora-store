@@ -13,7 +13,7 @@ export default async function Shop({ searchParams }: { searchParams?: Promise<{ 
     : products;
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto w-full max-w-7xl space-y-6">
       <Reveal>
         <div className="flex flex-col gap-2">
           <h1 className="font-display text-3xl font-semibold tracking-tight">Shop</h1>
@@ -29,7 +29,7 @@ export default async function Shop({ searchParams }: { searchParams?: Promise<{ 
         </div>
       ) : (
         <Reveal delay={0.04}>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((p) => (
               <ProductCard key={p.slug} product={p} />
             ))}

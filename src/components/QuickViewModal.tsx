@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect } from "react";
-import type { Product } from "../lib/products";
+import type { Product } from "../data/products";
 import { cn } from "../lib/utils";
 import AddToCartButton from "./AddToCartButton";
 import PremiumImage from "./PremiumImage";
