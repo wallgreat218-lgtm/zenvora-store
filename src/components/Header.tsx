@@ -75,8 +75,7 @@ export default function Header() {
                   className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-transparent via-foreground/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-hover:animate-shine"
                 />
               </span>
-              <span className="font-display text-sm font-semibold tracking-tight">ZenVora</span>
-              <span className="hidden text-xs text-muted-foreground sm:inline">Premium electronics</span>
+              <span className="font-display text-sm font-semibold tracking-tight">ZenVora Electronics</span>
             </Link>
 
             <nav className="hidden items-center gap-6 md:flex">

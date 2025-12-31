@@ -1,6 +1,4 @@
 "use client";
-
-import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -8,6 +6,7 @@ import { useEffect } from "react";
 import type { Product } from "../lib/products";
 import { cn } from "../lib/utils";
 import AddToCartButton from "./AddToCartButton";
+import PremiumImage from "./PremiumImage";
 
 function formatPrice(price: number) {
   return price.toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -22,6 +21,8 @@ export default function QuickViewModal({
   open: boolean;
   onClose: () => void;
 }) {
+  const category = product.category as string;
+
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -84,13 +85,31 @@ export default function QuickViewModal({
             <div className="grid grid-cols-1 gap-6 p-5 lg:grid-cols-2">
               <div className="space-y-3">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border/60 bg-card">
-                  <Image src={images[0]} alt={product.name} fill sizes="(max-width: 1024px) 100vw, 480px" className="object-cover" priority />
+                  <PremiumImage
+                    src={images[0]}
+                    alt={product.name}
+                    variant={
+                      category === "phones"
+                        ? "phone"
+                        : category === "laptops"
+                          ? "laptop"
+                          : category === "audio"
+                            ? "headphones"
+                            : category === "tvs"
+                              ? "tv"
+                              : "generic"
+                    }
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 480px"
+                    className="object-cover"
+                    priority
+                  />
                 </div>
 
                 <div className="grid grid-cols-4 gap-3">
                   {images.slice(0, 4).map((src) => (
                     <div key={src} className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border/60 bg-card">
-                      <Image src={src} alt="" fill sizes="160px" className="object-cover" />
+                      <PremiumImage src={src} alt="" variant="generic" fill sizes="160px" className="object-cover" />
                     </div>
                   ))}
                 </div>

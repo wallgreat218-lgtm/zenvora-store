@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Eye, ShoppingBag, Star } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -8,6 +7,7 @@ import { Product } from "../lib/products";
 import { addToCart } from "../lib/cart";
 import { cn } from "../lib/utils";
 import QuickViewModal from "./QuickViewModal";
+import PremiumImage from "./PremiumImage";
 
 function formatPrice(price: number) {
   return price.toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -107,9 +107,18 @@ export default function ProductCard({ product }: { product: Product }) {
 
       <Link href={`/product/${product.slug}`} className="block">
         <div className="relative aspect-[4/3] w-full overflow-hidden">
-          <Image
+          <PremiumImage
             src={product.image}
             alt={product.name}
+            variant={
+              product.category === "phones"
+                ? "phone"
+                : product.category === "laptops"
+                  ? "laptop"
+                  : product.category === "audio"
+                    ? "headphones"
+                    : "generic"
+            }
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
             className="object-cover transition-transform duration-500 will-change-transform group-hover:scale-[1.07]"
