@@ -68,7 +68,7 @@ export default function Hero({ products }: { products: HeroProduct[] }) {
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
             className="mt-4 max-w-2xl font-display text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
           >
-            Shop the latest tech — <span className="text-gradient">premium picks</span>, fast delivery.
+            Shop the latest tech — <span className="text-gradient">premium picks</span>, great prices.
           </motion.h1>
 
           <motion.p
@@ -77,7 +77,7 @@ export default function Hero({ products }: { products: HeroProduct[] }) {
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 }}
             className="mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg"
           >
-            Phones, laptops, wearables & accessories. New deals added weekly.
+            Phones, laptops, wearables & accessories. Fresh arrivals every week.
           </motion.p>
 
           <motion.div
@@ -90,8 +90,8 @@ export default function Hero({ products }: { products: HeroProduct[] }) {
               Shop now
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link href="/#deals" className="btn-secondary h-11 px-6">
-              View deals
+            <Link href="/#categories" className="btn-secondary h-11 px-6">
+              Browse categories
             </Link>
           </motion.div>
         </div>

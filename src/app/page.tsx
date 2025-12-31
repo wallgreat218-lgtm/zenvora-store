@@ -29,7 +29,9 @@ export default function Home() {
       <Reveal>
         <Hero products={heroProducts} />
       </Reveal>
-      <CategoryGrid />
+      <div id="categories">
+        <CategoryGrid />
+      </div>
       <Reveal delay={0.05}>
         <div id="deals">
           <DealsCarousel products={products} />

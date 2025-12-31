@@ -14,7 +14,7 @@ export default function PremiumImage(
   }
 ) {
   const { src, alt, variant = "generic", className, ...rest } = props;
-  const [errored, setErrored] = useState(false);
+  const [errorStage, setErrorStage] = useState<0 | 1 | 2>(0);
 
   const Icon = useMemo(() => {
     switch (variant) {
@@ -31,7 +31,10 @@ export default function PremiumImage(
     }
   }, [variant]);
 
-  if (!src || errored) {
+  const fallbackSrc = "/products/generated/fallback.png";
+  const effectiveSrc = errorStage === 0 ? src : fallbackSrc;
+
+  if (!src || errorStage >= 2) {
     return (
       <div className={cn("absolute inset-0", className)} aria-label={alt} role="img">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/18 via-background/40 to-accent/18" />
@@ -64,11 +67,11 @@ export default function PremiumImage(
   return (
     <Image
       {...rest}
-      src={src}
+      src={effectiveSrc}
       alt={alt}
       className={className}
       onError={(e) => {
-        setErrored(true);
+        setErrorStage((s) => (s === 0 ? 1 : 2));
         props.onError?.(e);
       }}
     />

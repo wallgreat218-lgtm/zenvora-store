@@ -22,7 +22,7 @@ export type Product = {
   tags: string[];
 };
 
-export const products: Product[] = [
+const baseProducts: Product[] = [
   {
     "slug": "realme-12",
     "name": "realme 12",
@@ -5668,6 +5668,13 @@ export const products: Product[] = [
     ]
   }
 ];
+
+export const products: Product[] = baseProducts.map((p) => {
+  const generated = `/products/generated/${p.slug}.png`;
+  return { ...p, image: generated, images: [generated, generated, generated] };
+});
+
+export const rawProducts: Product[] = baseProducts;
 
 export function getProductBySlug(slug: string) {
   return products.find((p) => p.slug === slug);
