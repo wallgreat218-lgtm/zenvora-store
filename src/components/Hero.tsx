@@ -8,10 +8,10 @@ export default function Hero() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 shadow-soft sm:p-12">
+    <section className="surface-hero relative min-h-[560px] overflow-hidden p-10 sm:p-14 lg:min-h-[640px]">
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-70"
+        className="pointer-events-none absolute inset-0 opacity-80"
         style={{
           background:
             "linear-gradient(120deg, hsl(var(--primary) / 0.10), transparent 35%, hsl(var(--accent) / 0.22), transparent 70%, hsl(var(--primary) / 0.10))",
@@ -57,7 +57,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
-          className="mt-4 max-w-3xl font-display text-4xl font-semibold tracking-tight sm:text-5xl"
+          className="mt-5 max-w-3xl font-display text-5xl font-semibold tracking-tight sm:text-6xl"
         >
           Modern electronics,
           <span className="text-gradient"> designed to feel flagship.</span>
@@ -67,7 +67,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 }}
-          className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground"
+          className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground"
         >
           Explore phones, laptops, wearables, audio, and accessories with premium presentation, fast browsing, and smooth motion.
         </motion.p>
@@ -76,7 +76,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.18 }}
-          className="mt-6 flex flex-col gap-3 sm:flex-row"
+          className="mt-8 flex flex-col gap-3 sm:flex-row"
         >
           <Link href="/shop" className="btn h-11 px-5">
             Shop new arrivals

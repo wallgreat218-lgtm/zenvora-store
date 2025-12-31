@@ -2,19 +2,14 @@
 import { getCart, clearCart } from "../../lib/cart";
 import { products } from "../../lib/products";
 import Link from "next/link";
-import Image from "next/image";
-
-const STRIPE_ENABLED = false;
+import PremiumImage from "../../components/PremiumImage";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
+  const router = useRouter();
   const items = typeof window !== "undefined" ? getCart() : [];
   const detailed = items.map((it) => ({ ...it, product: products.find((p) => p.slug === it.slug) }));
   const total = detailed.reduce((s, it) => s + (it.product ? it.product.price * it.quantity : 0), 0);
-
-  function checkout() {
-    // placeholder for real checkout
-    alert("Checkout flow not implemented in scaffold");
-  }
 
   return (
     <div className="space-y-6">
@@ -45,9 +40,24 @@ export default function CartPage() {
             {detailed.map((it) => (
               <div key={it.slug} className="flex gap-4 rounded-lg border border-border/60 bg-card p-4">
                 <div className="relative h-24 w-32 overflow-hidden rounded-md border border-border/60 bg-background">
-                  {it.product && (
-                    <Image src={it.product.image} alt={it.product.name} fill sizes="140px" className="object-cover" />
-                  )}
+                  <PremiumImage
+                    src={it.product?.image}
+                    alt={it.product?.name ?? it.slug}
+                    variant={
+                      it.product?.category === "phones"
+                        ? "phone"
+                        : it.product?.category === "laptops"
+                          ? "laptop"
+                          : it.product?.category === "audio"
+                            ? "headphones"
+                            : it.product?.category === "tvs"
+                              ? "tv"
+                              : "generic"
+                    }
+                    fill
+                    sizes="140px"
+                    className="object-cover"
+                  />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-start justify-between gap-3">
@@ -97,13 +107,8 @@ export default function CartPage() {
 
             <button
               className="btn mt-5 h-11 w-full"
-              style={{ opacity: STRIPE_ENABLED ? 1 : 0.7 }}
               onClick={() => {
-                if (!STRIPE_ENABLED) {
-                  alert("Payments coming soon. Please check back shortly.");
-                  return;
-                }
-                checkout();
+                router.push("/checkout");
               }}
             >
               Secure checkout

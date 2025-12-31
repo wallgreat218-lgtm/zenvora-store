@@ -3,11 +3,14 @@ ZenVora scaffold
 Run locally:
 
 ```bash
-cd d:\site\zenvora-store
+cd c:\Users\methew\Documents\GitHub\zenvora-store
 npm install
 npm run dev
 ```
 
 Notes:
-- Replace images in `public/` with real PNGs named as in `src/lib/products.ts`.
-- Stripe is disabled by default. Edit `STRIPE_ENABLED` in `src/app/cart/page.tsx` and add environment variables when ready.
+- Premium product images are generated from prompts in `src/data/image-prompts.md` and saved to `public/products/premium/<slug>/01.webp` etc.
+	- PowerShell: `$env:REPLICATE_API_TOKEN="..." ; npm run images:generate`
+	- Cross-platform: `npx cross-env REPLICATE_API_TOKEN=... npm run images:generate`
+- `npm run build` automatically attempts to generate missing images if `REPLICATE_API_TOKEN` is set (via `prebuild`). If not set, the UI uses premium visual fallbacks.
+- Payments are mocked via `/checkout` and can be swapped to Stripe later via `src/app/api/checkout/route.ts`.

@@ -92,8 +92,8 @@ export default function ProductCard({ product }: { product: Product }) {
       />
 
       <motion.article
-        whileHover={{ y: -6 }}
-        transition={{ type: "spring", stiffness: 380, damping: 26 }}
+        whileHover={{ y: -10, rotateX: 1.2, rotateY: -1.2 }}
+        transition={{ type: "spring", stiffness: 420, damping: 28 }}
         className={cn(
           "group relative overflow-hidden rounded-2xl border border-border/60",
           "bg-card shadow-soft transition-shadow duration-300 will-change-transform",
@@ -106,7 +106,7 @@ export default function ProductCard({ product }: { product: Product }) {
       </div>
 
       <Link href={`/product/${product.slug}`} className="block">
-        <div className="relative aspect-[4/3] w-full overflow-hidden">
+        <div className="relative aspect-[16/11] w-full overflow-hidden">
           <PremiumImage
             src={product.image}
             alt={product.name}
@@ -121,8 +121,17 @@ export default function ProductCard({ product }: { product: Product }) {
             }
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-            className="object-cover transition-transform duration-500 will-change-transform group-hover:scale-[1.07]"
+            className="object-cover transition-transform duration-500 will-change-transform group-hover:scale-[1.11]"
             priority={false}
+          />
+
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style={{
+              background:
+                "radial-gradient(700px 320px at 50% 0%, hsl(var(--accent) / 0.18), transparent 55%), radial-gradient(700px 420px at 50% 110%, hsl(var(--primary) / 0.14), transparent 60%)",
+            }}
           />
 
           <div className="absolute left-3 top-3 flex items-center gap-2">
@@ -144,10 +153,10 @@ export default function ProductCard({ product }: { product: Product }) {
             ) : null}
           </div>
 
-          <div className="absolute bottom-3 left-3 right-3 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <div className="absolute bottom-3 left-3 right-3 translate-y-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
             <div className="flex items-center justify-between gap-2 rounded-md border border-border/60 bg-background/70 p-2 backdrop-blur">
               <button
-                className="btn h-9 flex-1 px-3"
+                className="btn h-10 flex-1 px-4"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -159,7 +168,7 @@ export default function ProductCard({ product }: { product: Product }) {
               </button>
               <button
                 type="button"
-                className="inline-flex h-9 items-center justify-center rounded-md border border-border/60 bg-card px-3 text-sm font-medium text-foreground transition hover:bg-accent"
+                className="inline-flex h-10 items-center justify-center rounded-md border border-border/60 bg-card px-3.5 text-sm font-medium text-foreground transition hover:bg-accent"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -173,13 +182,13 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
 
-        <div className="space-y-2 p-4">
+        <div className="space-y-3 p-5">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="line-clamp-2 font-display text-base font-semibold tracking-tight">
+            <h3 className="line-clamp-2 font-display text-lg font-semibold tracking-tight">
               {product.name}
             </h3>
             <div className="shrink-0 text-right">
-              <div className="text-base font-semibold">{formatPrice(product.price)}</div>
+              <div className="text-lg font-semibold">{formatPrice(product.price)}</div>
               <div className="mt-0.5 text-xs text-muted-foreground">
                 {hasDiscount ? (
                   <span>

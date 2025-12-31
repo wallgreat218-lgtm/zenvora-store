@@ -43,13 +43,17 @@ export default function PremiumImage(
           }}
         />
         <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent" />
-        <div className="relative flex h-full w-full flex-col items-center justify-center p-6 text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border/60 bg-background/30 shadow-soft backdrop-blur">
-            <Icon className="h-7 w-7 text-foreground/80" />
-          </div>
-          <div className="mt-4 text-sm font-semibold tracking-tight">AI image coming soon</div>
-          <div className="mt-1 text-xs text-muted-foreground">
-            Photorealistic, unbranded studio render in progress.
+        <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent" />
+
+        <div className="absolute inset-0 opacity-70" style={{ background: "linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.08), transparent)" }} />
+        <div className="absolute inset-0 -translate-x-[120%] animate-shine" style={{ background: "linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.10), transparent)" }} />
+
+        <div className="relative flex h-full w-full items-center justify-center p-6">
+          <div className="relative">
+            <div className="absolute -inset-10 rounded-[32px] bg-primary/10 blur-2xl" />
+            <div className="relative inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-border/60 bg-background/30 shadow-soft backdrop-blur">
+              <Icon className="h-8 w-8 text-foreground/80" />
+            </div>
           </div>
         </div>
       </div>

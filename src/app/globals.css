@@ -72,6 +72,10 @@
 		height: 100%;
 	}
 
+	html {
+		font-size: 18px;
+	}
+
 	body {
 		@apply bg-background text-foreground antialiased;
 		font-family: var(--font-sans);
@@ -105,9 +109,14 @@
 @layer components {
 	.btn {
 		@apply inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition;
+		transition-property: transform, box-shadow, opacity, background-color, color;
 	}
 	.btn:hover {
 		@apply opacity-95;
+		transform: translateY(-1px);
+	}
+	.btn:active {
+		transform: translateY(0px) scale(0.99);
 	}
 	.btn:focus-visible {
 		@apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
@@ -115,9 +124,14 @@
 
 	.btn-secondary {
 		@apply inline-flex items-center justify-center gap-2 rounded-md border border-border/60 bg-background/70 px-4 py-2 text-sm font-medium text-foreground shadow-sm backdrop-blur transition;
+		transition-property: transform, box-shadow, opacity, background-color, color;
 	}
 	.btn-secondary:hover {
 		@apply bg-accent;
+		transform: translateY(-1px);
+	}
+	.btn-secondary:active {
+		transform: translateY(0px) scale(0.99);
 	}
 	.btn-secondary:focus-visible {
 		@apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
@@ -125,9 +139,14 @@
 
 	.btn-ghost {
 		@apply inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground transition;
+		transition-property: transform, box-shadow, opacity, background-color, color;
 	}
 	.btn-ghost:hover {
 		@apply bg-accent;
+		transform: translateY(-1px);
+	}
+	.btn-ghost:active {
+		transform: translateY(0px) scale(0.99);
 	}
 	.btn-ghost:focus-visible {
 		@apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
@@ -148,5 +167,9 @@
 
 	.surface {
 		@apply rounded-2xl border border-border/60 bg-card/70 shadow-soft backdrop-blur;
+	}
+
+	.surface-hero {
+		@apply rounded-3xl border border-border/60 bg-card/60 shadow-glow backdrop-blur;
 	}
 }
