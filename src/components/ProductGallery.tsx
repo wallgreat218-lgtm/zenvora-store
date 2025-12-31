@@ -42,7 +42,7 @@ export default function ProductGallery({ name, images }: { name: string; images:
       </div>
 
       <p className="text-xs text-muted-foreground">
-        Images are unbranded, generated artwork for safe previews.
+        Images are unbranded studio renders for safe previews.
       </p>
     </div>
   );

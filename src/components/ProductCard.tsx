@@ -65,7 +65,8 @@ export default function ProductCard({ product }: { product: Product }) {
       transition={{ type: "spring", stiffness: 380, damping: 26 }}
       className={cn(
         "group relative overflow-hidden rounded-lg border border-border/60",
-        "bg-card shadow-soft"
+        "bg-card shadow-soft transition-shadow duration-300 will-change-transform",
+        "group-hover:shadow-glow"
       )}
     >
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
