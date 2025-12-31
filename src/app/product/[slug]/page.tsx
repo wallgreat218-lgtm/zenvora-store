@@ -2,21 +2,27 @@ import { products } from "../../../lib/products";
 import Reviews from "../../../components/Reviews";
 import ProductGallery from "../../../components/ProductGallery";
 import AddToCartButton from "../../../components/AddToCartButton";
-import { ShieldCheck, Truck } from "lucide-react";
+import ProductCard from "../../../components/ProductCard";
+import { RotateCcw, ShieldCheck, Truck } from "lucide-react";
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const product = products.find((p) => p.slug === slug);
   if (!product) return <p>Product not found</p>;
-  return (
-    <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-      <ProductGallery name={product.name} images={product.images} />
 
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight">{product.name}</h1>
-          <p className="text-sm text-muted-foreground">{product.shortDescription}</p>
-        </div>
+  const related = products
+    .filter((p) => p.slug !== product.slug && p.category === product.category)
+    .slice(0, 4);
+  return (
+    <div className="space-y-16">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+        <ProductGallery name={product.name} images={product.images} />
+
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-semibold tracking-tight">{product.name}</h1>
+            <p className="text-sm text-muted-foreground">{product.shortDescription}</p>
+          </div>
 
         <div className="flex items-end justify-between gap-4 rounded-lg border border-border/60 bg-card p-4">
           <div>
@@ -56,7 +62,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-lg border border-border/60 bg-card p-4">
             <div className="flex items-center gap-2 text-sm font-semibold">
               <Truck className="h-4 w-4" />
@@ -70,6 +76,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               Warranty
             </div>
             <p className="mt-2 text-sm text-muted-foreground">{product.warranty}</p>
+          </div>
+          <div className="rounded-lg border border-border/60 bg-card p-4">
+            <div className="flex items-center gap-2 text-sm font-semibold">
+              <RotateCcw className="h-4 w-4" />
+              Returns
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {product.returns ?? "Free 30‑day returns • Easy exchanges"}
+            </p>
           </div>
           <div className="rounded-lg border border-border/60 bg-card p-4">
             <div className="text-sm font-semibold">What’s in the box</div>
@@ -86,10 +101,27 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <p className="text-sm leading-6 text-muted-foreground">{product.fullDescription}</p>
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-card p-5">
-          <Reviews />
+          <div className="rounded-lg border border-border/60 bg-card p-5">
+            <Reviews />
+          </div>
         </div>
       </div>
+
+      {related.length ? (
+        <section>
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="font-display text-2xl font-semibold tracking-tight">Related products</h2>
+              <p className="mt-1 text-sm text-muted-foreground">More picks in {product.category}.</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {related.map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

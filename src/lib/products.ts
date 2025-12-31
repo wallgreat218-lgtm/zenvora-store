@@ -2,6 +2,8 @@ export type Product = {
   slug: string;
   name: string;
   price: number;
+  compareAtPrice?: number;
+  stock?: "in" | "low" | "out";
   image: string;
   images: string[];
   category: "phones" | "laptops" | "audio" | "wearables" | "accessories";
@@ -13,6 +15,7 @@ export type Product = {
   whatsInTheBox: string[];
   warranty: string;
   shipping: string;
+  returns?: string;
   rating: number;
   reviewCount: number;
   tags: string[];

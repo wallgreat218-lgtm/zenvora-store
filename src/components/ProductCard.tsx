@@ -3,12 +3,29 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Eye, ShoppingBag, Star } from "lucide-react";
+import { useMemo, useState } from "react";
 import { Product } from "../lib/products";
 import { addToCart } from "../lib/cart";
 import { cn } from "../lib/utils";
+import QuickViewModal from "./QuickViewModal";
 
 function formatPrice(price: number) {
   return price.toLocaleString("en-US", { style: "currency", currency: "USD" });
+}
+
+function deriveCompareAt(product: Product) {
+  if (product.compareAtPrice && product.compareAtPrice > product.price) return product.compareAtPrice;
+  // Deterministic “list price” fallback for premium ecommerce presentation.
+  const bump = product.price >= 1200 ? 0.12 : product.price >= 800 ? 0.14 : 0.16;
+  return Math.round(product.price * (1 + bump));
+}
+
+function deriveStock(product: Product): Product["stock"] {
+  if (product.stock) return product.stock;
+  // Deterministic stock state (keeps UI consistent without editing all items).
+  const hash = Array.from(product.slug).reduce((s, ch) => s + ch.charCodeAt(0), 0);
+  const v = hash % 10;
+  return v <= 1 ? "low" : "in";
 }
 
 function CategoryPill({ category }: { category: Product["category"] }) {
@@ -59,16 +76,30 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
+  const [quickViewOpen, setQuickViewOpen] = useState(false);
+
+  const compareAt = useMemo(() => deriveCompareAt(product), [product]);
+  const stock = useMemo(() => deriveStock(product), [product]);
+  const hasDiscount = compareAt > product.price;
+  const discountPct = hasDiscount ? Math.round(((compareAt - product.price) / compareAt) * 100) : null;
+
   return (
-    <motion.article
-      whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 380, damping: 26 }}
-      className={cn(
-        "group relative overflow-hidden rounded-lg border border-border/60",
-        "bg-card shadow-soft transition-shadow duration-300 will-change-transform",
-        "group-hover:shadow-glow"
-      )}
-    >
+    <>
+      <QuickViewModal
+        product={{ ...product, compareAtPrice: compareAt, stock }}
+        open={quickViewOpen}
+        onClose={() => setQuickViewOpen(false)}
+      />
+
+      <motion.article
+        whileHover={{ y: -6 }}
+        transition={{ type: "spring", stiffness: 380, damping: 26 }}
+        className={cn(
+          "group relative overflow-hidden rounded-2xl border border-border/60",
+          "bg-card shadow-soft transition-shadow duration-300 will-change-transform",
+          "group-hover:shadow-glow"
+        )}
+      >
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/10" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent" />
@@ -87,9 +118,21 @@ export default function ProductCard({ product }: { product: Product }) {
 
           <div className="absolute left-3 top-3 flex items-center gap-2">
             <CategoryPill category={product.category} />
-            <span className="inline-flex items-center rounded-full bg-foreground/90 px-2.5 py-1 text-[11px] font-semibold text-background">
-              New
-            </span>
+            {stock === "low" ? (
+              <span className="inline-flex items-center rounded-full bg-foreground/90 px-2.5 py-1 text-[11px] font-semibold text-background">
+                Low stock
+              </span>
+            ) : (
+              <span className="inline-flex items-center rounded-full bg-foreground/90 px-2.5 py-1 text-[11px] font-semibold text-background">
+                In stock
+              </span>
+            )}
+
+            {discountPct ? (
+              <span className="inline-flex items-center rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] font-semibold backdrop-blur">
+                {discountPct}% off
+              </span>
+            ) : null}
           </div>
 
           <div className="absolute bottom-3 left-3 right-3 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
@@ -105,9 +148,18 @@ export default function ProductCard({ product }: { product: Product }) {
                 <ShoppingBag className="h-4 w-4" />
                 Quick add
               </button>
-              <span className="inline-flex h-9 items-center justify-center rounded-md border border-border/60 bg-card px-3 text-sm font-medium text-foreground">
+              <button
+                type="button"
+                className="inline-flex h-9 items-center justify-center rounded-md border border-border/60 bg-card px-3 text-sm font-medium text-foreground transition hover:bg-accent"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setQuickViewOpen(true);
+                }}
+                aria-label="Quick view"
+              >
                 <Eye className="h-4 w-4" />
-              </span>
+              </button>
             </div>
           </div>
         </div>
@@ -119,7 +171,17 @@ export default function ProductCard({ product }: { product: Product }) {
             </h3>
             <div className="shrink-0 text-right">
               <div className="text-base font-semibold">{formatPrice(product.price)}</div>
-              <div className="text-xs text-muted-foreground">Free returns</div>
+              <div className="mt-0.5 text-xs text-muted-foreground">
+                {hasDiscount ? (
+                  <span>
+                    <span className="line-through">{formatPrice(compareAt)}</span>
+                    <span className="mx-1">·</span>
+                    Free returns
+                  </span>
+                ) : (
+                  "Free returns"
+                )}
+              </div>
             </div>
           </div>
 
@@ -134,6 +196,7 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
       </Link>
-    </motion.article>
+      </motion.article>
+    </>
   );
 }
