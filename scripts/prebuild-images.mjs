@@ -2,8 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
-const outDir = path.join(process.cwd(), "public", "products", "generated");
-const fallback = path.join(outDir, "fallback.png");
+const outDir = path.join(process.cwd(), "public", "products", "real");
+const fallback = path.join(outDir, "fallback.webp");
 
 // Keep builds deterministic and fast: only generate if missing.
 if (fs.existsSync(fallback)) {
@@ -11,8 +11,8 @@ if (fs.existsSync(fallback)) {
   process.exit(0);
 }
 
-console.log("[prebuild] generating local premium product images...");
-const res = spawnSync(process.execPath, ["scripts/generate-product-images.mjs"], {
+console.log("[prebuild] generating local real product images...");
+const res = spawnSync(process.execPath, ["scripts/generate-real-product-images.mjs"], {
   stdio: "inherit",
   env: process.env,
 });

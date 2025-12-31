@@ -12,7 +12,9 @@ export type Product = {
   description?: string;
   fullDescription: string;
   highlights: string[];
+  features?: string[];
   specs: Record<string, string>;
+  specifications?: Record<string, string>;
   whatsInTheBox: string[];
   warranty: string;
   shipping: string;
@@ -5919,14 +5921,16 @@ function buildCatalogDetails(p: Product) {
 }
 
 export const products: Product[] = baseProducts.map((p) => {
-  const generated = `/products/generated/${p.slug}.png`;
-  const details = buildCatalogDetails(p);
+  const image = `/products/real/${p.slug}.webp`;
+  const details = buildCommercialDetails(p);
   return {
     ...p,
     ...details,
-    description: details.shortDescription,
-    image: generated,
-    images: [generated, generated, generated]
+    image,
+    images: [image],
+    specs: details.specs,
+    specifications: details.specs,
+    tags: details.tags
   };
 });
 
@@ -5934,4 +5938,371 @@ export const rawProducts: Product[] = baseProducts;
 
 export function getProductBySlug(slug: string) {
   return products.find((p) => p.slug === slug);
+}
+
+function buildCommercialDetails(p: Product) {
+  const seed = hashToSeed(p.slug);
+  const rand = mulberry32(seed);
+
+  const brand = "ZenVora";
+  const model = `${String.fromCharCode(65 + Math.floor(rand() * 26))}${int(rand, 10, 99)}`;
+  const tier = pick(rand, ["Core", "Plus", "Pro", "Max"]);
+  const finish = pick(rand, ["Matte Graphite", "Silver Mist", "Midnight", "Sandstone", "Sage", "Pearl"]);
+
+  const safeCategoryName =
+    p.category === "phones"
+      ? "Smartphone"
+      : p.category === "laptops"
+        ? "Laptop"
+        : p.category === "audio"
+          ? "Wireless Earbuds"
+          : p.category === "wearables"
+            ? "Smartwatch"
+            : p.category === "tvs"
+              ? "4K TV"
+              : /controller|gamepad|dualshock|xbox|playstation|switch/.test(p.slug)
+                ? "Wireless Gamepad"
+                : "Accessory";
+
+  const name = `${brand} ${safeCategoryName} ${model} ${tier}`;
+
+  if (p.category === "phones") {
+    const displaySize = pick(rand, [6.1, 6.3, 6.6, 6.7]);
+    const refresh = pick(rand, [90, 120, 144]);
+    const ram = pick(rand, [6, 8, 12]);
+    const storage = pick(rand, [128, 256, 512]);
+    const battery = pick(rand, [4500, 5000, 5200]);
+    const charge = pick(rand, [33, 45, 67, 80]);
+    const cameras = pick(rand, ["Dual", "Triple"]);
+    const mainMp = pick(rand, [50, 64, 108]);
+    const ip = pick(rand, ["IP54", "IP55", "IP67 (splash-rated)"]);
+
+    const shortDescription = `A ${finish} ${displaySize.toFixed(1)}\" ${refresh}Hz-class phone tuned for smooth everyday speed, clean photos, and dependable all-day battery.`;
+    const highlights = [
+      `${displaySize.toFixed(1)}\" ${refresh}Hz-class display for fluid scrolling`,
+      `${cameras} camera system with a ${mainMp}MP-class main sensor`,
+      `${battery}mAh-class battery with ${charge}W-class fast charging`
+    ];
+    const features = [
+      "Comfortable one-hand UI with smart brightness and eye-care mode",
+      "Balanced performance profile for multitasking and daily apps",
+      "Image processing tuned for natural skin tones and sharp edges",
+      "Fast, secure unlock with biometric options (varies by configuration)",
+      "Stereo-style audio tuning and clear call microphones",
+      `Durable finish with ${ip} class protection`
+    ];
+    const specs: Record<string, string> = {
+      Display: `${displaySize.toFixed(1)}\" OLED/AMOLED-class, ${refresh}Hz class`,
+      Memory: `${ram}GB RAM class`,
+      Storage: `${storage}GB`,
+      Cameras: `${cameras} cameras, ${mainMp}MP-class main`,
+      Battery: `${battery}mAh class`,
+      Charging: `${charge}W-class wired fast charge`,
+      Finish: finish,
+      Durability: ip,
+      Connectivity: "5G (where supported) • Wi‑Fi 6 class • Bluetooth 5.3 class"
+    };
+    const description = [
+      `Built for daily reliability, ${name} pairs a bright, smooth display with a responsive performance profile that keeps messaging, navigation, and streaming feeling effortless. The ${finish} finish and refined edges are designed to look clean on a desk and comfortable in hand.`,
+      `The camera system focuses on realistic color and crisp detail in everyday scenes, with quick capture and simple modes that help you get the shot without fiddling. A large battery and fast-charge support make it easy to top up between meetings or on the go.`,
+      `From commuting to weekend plans, it’s a practical, modern phone that prioritizes a polished experience: stable connectivity, clear calls, and consistent performance.`
+    ].join("\n\n");
+
+    return {
+      name,
+      brand,
+      shortDescription,
+      highlights,
+      features,
+      specs,
+      description,
+      fullDescription: description,
+      tags: ["zenvora", "smartphone", "mobile", "5g", "oled", "fast-charging"],
+    };
+  }
+
+  if (p.category === "laptops") {
+    const screen = pick(rand, [13.3, 14.0, 15.6, 16.0]);
+    const res = pick(rand, ["1920×1200", "2560×1600", "2880×1800"]);
+    const cpu = pick(rand, ["8-core performance CPU", "12-core hybrid CPU", "high-efficiency 10-core CPU"]);
+    const ram = pick(rand, [8, 16, 32]);
+    const storage = pick(rand, [512, 1024, 2048]);
+    const weight = (pick(rand, [1.25, 1.38, 1.55, 1.75]) + rand() * 0.06).toFixed(2);
+    const battery = pick(rand, ["up to 10 hours", "up to 12 hours", "up to 15 hours"]);
+    const ports = pick(rand, ["USB‑C, USB‑A, HDMI", "2× USB‑C, USB‑A", "USB‑C, HDMI, SD reader"]);
+
+    const shortDescription = `A ${finish} ${screen.toFixed(1)}\" laptop built for focused work—snappy performance, a sharp display, and a quiet, premium feel.`;
+    const highlights = [
+      `${screen.toFixed(1)}\" display (${res}) with rich color`,
+      `${ram}GB RAM and ${storage}GB SSD-class storage`,
+      `Lightweight ${weight}kg chassis with ${battery} battery class`
+    ];
+    const features = [
+      "Comfortable keyboard with spacious trackpad",
+      "Optimized cooling for quiet everyday workloads",
+      "Quick wake and fast app launches",
+      "Webcam and microphone tuning for clearer calls",
+      "Premium hinge feel with stable screen positioning",
+      `Versatile I/O including ${ports}`
+    ];
+    const specs: Record<string, string> = {
+      Display: `${screen.toFixed(1)}\" ${res}`,
+      Processor: cpu,
+      Memory: `${ram}GB RAM`,
+      Storage: `${storage}GB SSD`,
+      Weight: `${weight}kg`,
+      Battery: battery,
+      Finish: finish,
+      Ports: ports,
+      Wireless: "Wi‑Fi 6E class • Bluetooth 5.3 class"
+    };
+    const description = [
+      `${name} is designed as a dependable everyday machine: quick to start, smooth under multitasking, and comfortable for long sessions. The display is tuned for clarity—great for documents, spreadsheets, and content consumption alike.`,
+      `Inside, a modern processor platform and fast storage keep projects moving, while the chassis and hinge are built for a premium, minimalist look. It’s the kind of laptop that feels at home at a café, at school, or on a clean desk setup.`,
+      `Whether you’re editing, presenting, or simply keeping dozens of tabs open, it’s a balanced build that prioritizes responsiveness and portability.`
+    ].join("\n\n");
+
+    return {
+      name,
+      brand,
+      shortDescription,
+      highlights,
+      features,
+      specs,
+      description,
+      fullDescription: description,
+      tags: ["zenvora", "laptop", "ultrabook", "ssd", "productivity"],
+    };
+  }
+
+  if (p.category === "audio") {
+    const driver = pick(rand, [9.2, 10.0, 11.0, 12.0]).toFixed(1);
+    const anc = pick(rand, ["Adaptive ANC", "Hybrid ANC", "ANC with transparency"]);
+    const battery = pick(rand, [6, 7, 8, 9]);
+    const total = battery + pick(rand, [18, 22, 26, 30]);
+    const rating = pick(rand, ["IPX4", "IPX5", "IPX7"]);
+    const codec = pick(rand, ["AAC", "AAC + LDAC-class", "AAC + aptX-class"]);
+
+    const shortDescription = `Compact true-wireless audio with ${anc}, punchy ${driver}mm drivers, and a pocketable case—tuned for commuting and calls.`;
+    const highlights = [
+      `${anc} with natural-sounding transparency`,
+      `${battery}h playback (earbuds) • ${total}h with case (class)`,
+      `${rating} sweat/water rating for workouts`
+    ];
+    const features = [
+      "Secure fit options for long listening sessions",
+      "Clear voice pickup with multi-mic noise filtering",
+      "Low-latency mode for video and casual gaming",
+      "Fast pairing and stable in-pocket connection",
+      "App-style EQ presets and touch controls",
+      `Wireless audio support: ${codec}`
+    ];
+    const specs: Record<string, string> = {
+      Type: "True wireless earbuds",
+      Drivers: `${driver}mm dynamic drivers`,
+      NoiseControl: anc,
+      Battery: `${battery}h earbuds • ${total}h total (class)`,
+      WaterResistance: rating,
+      Codecs: codec,
+      Connectivity: "Bluetooth 5.3 class",
+      Finish: finish
+    };
+    const description = [
+      `${name} is made for daily listening with a clean, modern tuning—strong low end, clear vocals, and comfortable wear. The case slips easily into a pocket and keeps the earbuds topped up between sessions.`,
+      `Noise control is designed for real environments: reduce steady background noise, then switch to transparency for announcements or quick conversations. Call clarity is prioritized with microphone filtering that helps your voice stay forward.`,
+      `It’s a polished, practical set of earbuds for commutes, workouts, and long days at the desk.`
+    ].join("\n\n");
+
+    return {
+      name,
+      brand,
+      shortDescription,
+      highlights,
+      features,
+      specs,
+      description,
+      fullDescription: description,
+      tags: ["zenvora", "audio", "earbuds", "anc", "wireless"],
+    };
+  }
+
+  if (p.category === "wearables") {
+    const display = pick(rand, [1.4, 1.6, 1.8]).toFixed(1);
+    const shape = pick(rand, ["round", "rectangular"]);
+    const battery = pick(rand, ["up to 2 days", "up to 4 days", "up to 7 days"]);
+    const gps = rand() < 0.65 ? "Built-in GPS" : "Connected GPS";
+    const water = pick(rand, ["5ATM", "IP68", "5ATM + IP68 class"]);
+    const sensors = pick(rand, [
+      "Heart rate, SpO₂, sleep tracking",
+      "Heart rate, stress, sleep, skin temp (class)",
+      "Heart rate, SpO₂, sleep, workout auto-detect"
+    ]);
+
+    const shortDescription = `A ${shape} ${display}\" smartwatch with crisp metrics, ${gps.toLowerCase()}, and ${battery} battery class—built for routines and training.`;
+    const highlights = [
+      `${display}\" ${shape} OLED-class display`,
+      `${sensors} insights`,
+      `${water} durability with ${battery} battery class`
+    ];
+    const features = [
+      "Workout modes with pace, zones, and summary insights",
+      "Daily readiness-style indicators (class) and recovery hints",
+      "Notification triage with quick replies (platform dependent)",
+      `Location tracking: ${gps}`,
+      "Always-on style watch faces (battery impact varies)",
+      `Durability rating: ${water}`
+    ];
+    const specs: Record<string, string> = {
+      Display: `${display}\" OLED-class (${shape})`,
+      Sensors: sensors,
+      GPS: gps,
+      Battery: battery,
+      Durability: water,
+      Finish: finish,
+      Connectivity: "Bluetooth 5.3 class • NFC (varies)"
+    };
+    const description = [
+      `${name} is a comfortable everyday wearable that keeps key stats easy to read at a glance. The interface is tuned for quick checks—time, notifications, and workouts—without feeling busy.`,
+      `Health features prioritize consistency: daily tracking, sleep summaries, and workout insights that help you see patterns over time. Water ratings and a durable build make it suitable for training, commuting, and weekend plans.`,
+      `If you want a simple, reliable smartwatch experience with a premium finish, it’s a strong fit.`
+    ].join("\n\n");
+
+    return {
+      name,
+      brand,
+      shortDescription,
+      highlights,
+      features,
+      specs,
+      description,
+      fullDescription: description,
+      tags: ["zenvora", "wearable", "watch", "fitness", "health"],
+    };
+  }
+
+  if (p.category === "tvs") {
+    const size = pick(rand, [43, 50, 55, 65, 75]);
+    const panel = pick(rand, ["LED", "QLED", "Mini‑LED", "OLED-class"]);
+    const refresh = pick(rand, [60, 120]);
+    const hdr = pick(rand, ["HDR10/HLG", "HDR10/HLG + Dolby Vision class", "HDR10+ class"]);
+    const ports = pick(rand, ["4× HDMI (2.1 class) + eARC + USB", "3× HDMI + eARC + USB", "4× HDMI + USB + optical"]);
+    const audio = pick(rand, ["2.0ch", "2.1ch", "virtual surround"]);
+
+    const shortDescription = `${size}\" 4K ${panel} with ${refresh}Hz-class motion and modern HDR—clean design, sharp detail, and low-latency gaming modes.`;
+    const highlights = [
+      `${panel} panel with deep contrast and bright highlights`,
+      `${refresh}Hz-class motion with game mode support`,
+      `${hdr} support for modern streaming`
+    ];
+    const features = [
+      "Refined upscaling for HD content",
+      "App-ready smart interface with quick access",
+      "Filmmaker-style picture presets (class)",
+      "Low-latency mode for consoles",
+      `Connectivity I/O: ${ports}`,
+      `Audio: ${audio} tuning with dialogue boost (class)`
+    ];
+    const specs: Record<string, string> = {
+      Size: `${size}\"`,
+      Resolution: "3840×2160 (4K)",
+      Panel: panel,
+      Refresh: `${refresh}Hz class`,
+      HDR: hdr,
+      Ports: ports,
+      Audio: audio,
+      Finish: finish
+    };
+    const description = [
+      `${name} is built for living-room clarity: sharp 4K detail, clean motion, and a modern bezel-forward look that blends into your setup. Picture profiles are tuned to keep highlights controlled and colors natural.`,
+      `For gaming, low-latency features help inputs feel responsive, while HDR support adds depth and pop to compatible content. The interface keeps streaming and inputs easy to reach without feeling cluttered.`,
+      `It’s a simple, premium-feeling TV that focuses on what matters—picture quality, consistency, and usability.`
+    ].join("\n\n");
+
+    return {
+      name,
+      brand,
+      shortDescription,
+      highlights,
+      features,
+      specs,
+      description,
+      fullDescription: description,
+      tags: ["zenvora", "tv", "4k", "hdr", "home-theater"],
+    };
+  }
+
+  // accessories (incl. gamepads)
+  const isGamepad = /controller|gamepad|dualshock|xbox|playstation|switch/.test(p.slug);
+  const material = pick(rand, ["soft-touch polymer", "anodized aluminum", "woven nylon", "tempered glass", "vegan leather"]);
+  const compatibility = pick(rand, ["USB‑C", "universal", "multi-device", "travel-friendly", "desk setup"]);
+  const shortDescription = isGamepad
+    ? `A comfortable wireless gamepad with responsive controls, refined triggers, and a premium ${finish.toLowerCase()} look—made for long sessions.`
+    : `A premium ${material} ${compatibility} accessory designed to make daily setups cleaner, safer, and more convenient.`;
+
+  const highlights = isGamepad
+    ? [
+        "Low-latency wireless connection (class)",
+        "Textured grip for long sessions",
+        "Responsive sticks and triggers"
+      ]
+    : [
+        `${material} finish with a clean, premium feel`,
+        `${compatibility} compatibility (varies by device)`,
+        "Designed to blend into modern setups"
+      ];
+
+  const features = isGamepad
+    ? [
+        "Balanced weight and ergonomic grip",
+        "Quiet face buttons with crisp actuation",
+        "Precision sticks with anti-drift tuning (class)",
+        "Rechargeable battery for long sessions (class)",
+        "Wired fallback support (varies)",
+        "Multi-platform compatibility (varies)"
+      ]
+    : [
+        "Designed for everyday durability and travel",
+        "Clean fit and finish with minimal bulk",
+        "Practical protection or convenience without clutter",
+        "Easy to set up and easy to store",
+        "Pairs well with modern desks and minimalist spaces",
+        "Built for consistent daily use"
+      ];
+
+  const specs: Record<string, string> = isGamepad
+    ? {
+        Type: "Wireless gamepad",
+        Connectivity: "Bluetooth class • optional wired (varies)",
+        Battery: `${int(rand, 12, 40)}h class`,
+        Weight: `${int(rand, 220, 340)}g`,
+        Finish: finish
+      }
+    : {
+        Material: material,
+        Compatibility: compatibility,
+        Weight: `${int(rand, 45, 420)}g`,
+        Finish: finish
+      };
+
+  const description = [
+    isGamepad
+      ? `${name} is built for comfort and control. It’s shaped for long sessions, with a stable grip and responsive inputs that feel consistent across games.`
+      : `${name} is designed to make everyday use simpler. It focuses on clean ergonomics, a premium feel, and practical utility without getting in the way.`,
+    isGamepad
+      ? `Wireless performance is tuned for low-latency play, with a layout that stays familiar and comfortable. For longer sessions, the weight balance and trigger feel are designed to reduce fatigue.`
+      : `Materials and finishes are chosen for durability and a tidy look on a desk or in a bag. It’s a small upgrade that keeps daily routines smooth.`,
+    `A refined, unbranded product built to fit modern setups—and to look good doing it.`
+  ].join("\n\n");
+
+  return {
+    name,
+    brand,
+    shortDescription,
+    highlights,
+    features,
+    specs,
+    description,
+    fullDescription: description,
+    tags: isGamepad ? ["zenvora", "gamepad", "controller", "wireless"] : ["zenvora", "accessory", "setup"],
+  };
 }

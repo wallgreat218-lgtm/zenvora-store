@@ -10,6 +10,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const product = products.find((p) => p.slug === slug);
   if (!product) return <p>Product not found</p>;
 
+  const specs = product.specifications ?? product.specs;
+  const description = (product.description ?? product.fullDescription ?? "").trim();
+  const descriptionParagraphs = description ? description.split(/\n\n+/) : [];
+
   const related = products
     .filter((p) => p.slug !== product.slug && p.category === product.category)
     .slice(0, 4);
@@ -46,12 +50,26 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </ul>
         </div>
 
+        {product.features?.length ? (
+          <div className="space-y-3">
+            <h2 className="text-base font-semibold">Features</h2>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              {product.features.map((f) => (
+                <li key={f} className="flex gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-foreground/70" />
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
         <div className="space-y-3">
           <h2 className="text-base font-semibold">Specs</h2>
           <div className="overflow-hidden rounded-lg border border-border/60">
             <table className="w-full text-sm">
               <tbody>
-                {Object.entries(product.specs).map(([k, v]) => (
+                {Object.entries(specs).map(([k, v]) => (
                   <tr key={k} className="border-b border-border/60 last:border-b-0">
                     <td className="w-1/3 bg-muted/30 px-4 py-3 font-medium text-foreground">{k}</td>
                     <td className="px-4 py-3 text-muted-foreground">{v}</td>
@@ -98,7 +116,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
         <div className="space-y-2">
           <h2 className="text-base font-semibold">About this product</h2>
-          <p className="text-sm leading-6 text-muted-foreground">{product.fullDescription}</p>
+          <div className="space-y-4 text-sm leading-6 text-muted-foreground">
+            {descriptionParagraphs.length
+              ? descriptionParagraphs.map((para) => <p key={para}>{para}</p>)
+              : product.fullDescription
+                ? <p>{product.fullDescription}</p>
+                : null}
+          </div>
         </div>
 
           <div className="rounded-lg border border-border/60 bg-card p-5">

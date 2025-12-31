@@ -106,7 +106,7 @@ export default function ProductCard({ product }: { product: Product }) {
       </div>
 
       <Link href={`/product/${product.slug}`} className="block">
-        <div className="relative aspect-[4/3] w-full max-h-[260px] overflow-hidden lg:max-h-[240px]">
+        <div className="relative aspect-square w-full overflow-hidden bg-card p-6">
           <PremiumImage
             src={product.image}
             alt={product.name}
@@ -121,7 +121,7 @@ export default function ProductCard({ product }: { product: Product }) {
             }
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-            className="object-cover transition-transform duration-500 will-change-transform group-hover:scale-[1.06]"
+            className="object-contain transition-transform duration-500 will-change-transform group-hover:scale-[1.04]"
             priority={false}
           />
 

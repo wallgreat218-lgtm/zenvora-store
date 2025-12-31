@@ -11,14 +11,14 @@ export default function ProductGallery({ name, images }: { name: string; images:
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border/60 bg-card">
+      <div className="group relative aspect-square overflow-hidden rounded-lg border border-border/60 bg-card p-8 cursor-zoom-in">
         <PremiumImage
           src={activeSrc}
           alt={name}
           variant="generic"
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover"
+          className="object-contain transition-transform duration-500 will-change-transform group-hover:scale-[1.06]"
           priority
         />
       </div>
@@ -35,14 +35,10 @@ export default function ProductGallery({ name, images }: { name: string; images:
             )}
             aria-label={`View image ${idx + 1}`}
           >
-            <PremiumImage src={src} alt="" variant="generic" fill sizes="200px" className="object-cover" />
+            <PremiumImage src={src} alt="" variant="generic" fill sizes="200px" className="object-contain" />
           </button>
         ))}
       </div>
-
-      <p className="text-xs text-muted-foreground">
-        Images are unbranded studio renders for safe previews.
-      </p>
     </div>
   );
 }

@@ -8,8 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "images:generate": "node scripts/generate-product-images.mjs",
-    "images:placeholders": "node scripts/generate-placeholders.mjs",
+    "images:generate": "node scripts/generate-real-product-images.mjs",
     "images:verify": "node scripts/verify-product-images.mjs"
   },
   "dependencies": {
