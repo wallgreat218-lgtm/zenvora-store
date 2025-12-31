@@ -98,58 +98,233 @@ function extractProductsArrayJson(tsText) {
 }
 
 function iconSvg(category) {
-  const common = 'fill="none" stroke="rgba(255,255,255,0.82)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"';
-  if (category === "phones") {
-    return `<g ${common}>
-      <rect x="470" y="190" rx="44" ry="44" width="260" height="520" />
-      <line x1="520" y1="250" x2="680" y2="250" />
-      <circle cx="600" cy="670" r="10" fill="rgba(255,255,255,0.65)" stroke="none" />
-    </g>`;
-  }
-  if (category === "laptops") {
-    return `<g ${common}>
-      <rect x="380" y="240" rx="26" ry="26" width="440" height="300" />
-      <path d="M320 560h560l-40 90H360z" />
-      <line x1="420" y1="285" x2="780" y2="285" />
-    </g>`;
-  }
-  if (category === "audio") {
-    return `<g ${common}>
-      <path d="M430 520v-90c0-95 76-172 170-172s170 77 170 172v90" />
-      <rect x="380" y="520" rx="30" ry="30" width="120" height="150" />
-      <rect x="700" y="520" rx="30" ry="30" width="120" height="150" />
-      <path d="M500 670c25 30 60 46 100 46s75-16 100-46" />
-    </g>`;
-  }
-  if (category === "tvs") {
-    return `<g ${common}>
-      <rect x="320" y="240" rx="30" ry="30" width="560" height="360" />
-      <path d="M520 640h160" />
-      <path d="M560 600l-40 80" />
-      <path d="M640 600l40 80" />
-    </g>`;
-  }
-  if (category === "wearables") {
-    return `<g ${common}>
-      <rect x="460" y="300" rx="64" ry="64" width="280" height="300" />
-      <rect x="520" y="360" rx="36" ry="36" width="160" height="180" />
-      <path d="M560 300l-30-90h140l-30 90" />
-      <path d="M560 600l-30 90h140l-30-90" />
-    </g>`;
-  }
-  // accessories / generic
-  return `<g ${common}>
-    <path d="M600 230l90 90-90 90-90-90z" />
-    <path d="M420 540c0-100 80-180 180-180s180 80 180 180-80 180-180 180-180-80-180-180z" />
-  </g>`;
+  return category;
+}
+
+function renderPhone(rand) {
+  const frameHue = Math.floor(200 + rand() * 120);
+  const camLenses = Math.floor(2 + rand() * 2);
+  const camBumpX = 470;
+  const camBumpY = 240;
+  const camBumpW = 190;
+  const camBumpH = 150;
+  const lensR = 20;
+  const lensGap = 52;
+  const lensStartX = camBumpX + 55;
+  const lensStartY = camBumpY + 52;
+  const tilt = Math.floor(-4 + rand() * 8);
+
+  const lenses = Array.from({ length: camLenses }).map((_, idx) => {
+    const col = idx % 2;
+    const row = Math.floor(idx / 2);
+    const cx = lensStartX + col * lensGap;
+    const cy = lensStartY + row * lensGap;
+    return `
+      <g>
+        <circle cx="${cx}" cy="${cy}" r="${lensR + 8}" fill="rgba(0,0,0,0.20)" />
+        <circle cx="${cx}" cy="${cy}" r="${lensR + 2}" fill="rgba(20,20,30,0.70)" />
+        <circle cx="${cx}" cy="${cy}" r="${lensR}" fill="rgba(0,0,0,0.35)" stroke="rgba(255,255,255,0.20)" stroke-width="2" />
+        <circle cx="${cx - 6}" cy="${cy - 6}" r="6" fill="rgba(255,255,255,0.35)" />
+      </g>`;
+  });
+
+  return `
+  <g filter="url(#shadow)" transform="rotate(${tilt} 600 470)">
+    <rect x="448" y="190" rx="58" ry="58" width="304" height="560" fill="url(#deviceFrame)" />
+    <rect x="470" y="215" rx="44" ry="44" width="260" height="512" fill="url(#screen)" />
+    <path d="M490 250c120-70 240-40 310 40" stroke="rgba(255,255,255,0.16)" stroke-width="14" stroke-linecap="round" />
+    <rect x="${camBumpX}" y="${camBumpY}" rx="34" ry="34" width="${camBumpW}" height="${camBumpH}" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" stroke-width="2" />
+    ${lenses.join("\n")}
+    <circle cx="${camBumpX + 150}" cy="${camBumpY + 42}" r="8" fill="rgba(255,255,255,0.42)" />
+    <path d="M735 240c20 160 20 320 0 470" stroke="rgba(255,255,255,0.14)" stroke-width="8" stroke-linecap="round" />
+  </g>
+  <defs>
+    <linearGradient id="deviceFrame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsla(${frameHue}, 55%, 70%, 0.35)" />
+      <stop offset="55%" stop-color="rgba(255,255,255,0.10)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.25)" />
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(0,0,0,0.35)" />
+      <stop offset="45%" stop-color="rgba(0,0,0,0.12)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0.06)" />
+    </linearGradient>
+  </defs>`;
+}
+
+function renderLaptop(rand) {
+  const tilt = Math.floor(-6 + rand() * 12);
+  const lidHue = Math.floor(190 + rand() * 120);
+  const logoX = 600 + Math.floor(-70 + rand() * 140);
+  const logoY = 355 + Math.floor(-40 + rand() * 80);
+  const keyLines = Math.floor(6 + rand() * 4);
+  const rows = Array.from({ length: keyLines }).map((_, i) => {
+    const y = 575 + i * 18;
+    return `<line x1="410" y1="${y}" x2="790" y2="${y}" stroke="rgba(255,255,255,0.10)" stroke-width="2" />`;
+  });
+
+  return `
+  <g filter="url(#shadow)" transform="rotate(${tilt} 600 520)">
+    <rect x="360" y="250" rx="28" ry="28" width="480" height="320" fill="url(#lid)" stroke="rgba(255,255,255,0.16)" stroke-width="2" />
+    <rect x="385" y="275" rx="20" ry="20" width="430" height="270" fill="rgba(0,0,0,0.25)" />
+    <path d="M380 320c180-120 360-60 460 60" stroke="rgba(255,255,255,0.12)" stroke-width="14" stroke-linecap="round" />
+
+    <path d="M320 585h560l-55 120H375z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.14)" stroke-width="2" />
+    <g>
+      ${rows.join("\n")}
+      <rect x="545" y="620" rx="10" ry="10" width="110" height="22" fill="rgba(255,255,255,0.10)" />
+    </g>
+
+    <circle cx="${logoX}" cy="${logoY}" r="38" fill="hsla(${lidHue}, 65%, 68%, 0.22)" />
+    <circle cx="${logoX}" cy="${logoY}" r="18" fill="hsla(${lidHue}, 70%, 78%, 0.20)" />
+  </g>
+  <defs>
+    <linearGradient id="lid" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.10)" />
+      <stop offset="55%" stop-color="hsla(${lidHue}, 55%, 62%, 0.20)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.28)" />
+    </linearGradient>
+  </defs>`;
+}
+
+function renderEarbuds(rand) {
+  const tilt = Math.floor(-6 + rand() * 12);
+  const hue = Math.floor(240 + rand() * 90);
+  const caseW = 330;
+  const caseH = 220;
+  const caseX = 435;
+  const caseY = 455;
+
+  return `
+  <g filter="url(#shadow)" transform="rotate(${tilt} 600 560)">
+    <rect x="${caseX}" y="${caseY}" rx="64" ry="64" width="${caseW}" height="${caseH}" fill="url(#case)" stroke="rgba(255,255,255,0.16)" stroke-width="2" />
+    <path d="M460 520c120-70 240-40 280 30" stroke="rgba(255,255,255,0.16)" stroke-width="12" stroke-linecap="round" />
+    <circle cx="600" cy="545" r="10" fill="rgba(255,255,255,0.18)" />
+
+    <g>
+      <path d="M430 380c0-60 50-110 110-110s110 50 110 110c0 50-35 94-84 106v80c0 18-14 32-32 32h-20c-18 0-32-14-32-32v-54c-26-18-42-47-42-82z" fill="url(#bud)" stroke="rgba(255,255,255,0.14)" stroke-width="2" />
+      <path d="M770 380c0-60-50-110-110-110s-110 50-110 110c0 50 35 94 84 106v80c0 18 14 32 32 32h20c18 0 32-14 32-32v-54c26-18 42-47 42-82z" fill="url(#bud)" stroke="rgba(255,255,255,0.14)" stroke-width="2" />
+    </g>
+  </g>
+  <defs>
+    <linearGradient id="case" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsla(${hue}, 60%, 70%, 0.22)" />
+      <stop offset="45%" stop-color="rgba(255,255,255,0.08)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.26)" />
+    </linearGradient>
+    <linearGradient id="bud" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.14)" />
+      <stop offset="60%" stop-color="rgba(255,255,255,0.06)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.24)" />
+    </linearGradient>
+  </defs>`;
+}
+
+function renderWatch(rand) {
+  const tilt = Math.floor(-8 + rand() * 16);
+  const hue = Math.floor(200 + rand() * 140);
+  const isRound = rand() > 0.45;
+  const face = isRound
+    ? `<circle cx="600" cy="460" r="150" fill="url(#face)" stroke="rgba(255,255,255,0.18)" stroke-width="3" />`
+    : `<rect x="465" y="310" rx="70" ry="70" width="270" height="300" fill="url(#face)" stroke="rgba(255,255,255,0.18)" stroke-width="3" />`;
+
+  return `
+  <g filter="url(#shadow)" transform="rotate(${tilt} 600 470)">
+    <rect x="515" y="120" rx="50" ry="50" width="170" height="230" fill="url(#strap)" opacity="0.85" />
+    <rect x="515" y="570" rx="50" ry="50" width="170" height="240" fill="url(#strap)" opacity="0.85" />
+    ${face}
+    <path d="M520 350c130-95 240-65 310 45" stroke="rgba(255,255,255,0.16)" stroke-width="14" stroke-linecap="round" />
+    <circle cx="750" cy="460" r="16" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.18)" stroke-width="2" />
+    <circle cx="600" cy="460" r="10" fill="rgba(255,255,255,0.18)" />
+  </g>
+  <defs>
+    <linearGradient id="strap" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsla(${hue}, 55%, 62%, 0.26)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.28)" />
+    </linearGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(0,0,0,0.32)" />
+      <stop offset="55%" stop-color="rgba(255,255,255,0.08)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.22)" />
+    </linearGradient>
+  </defs>`;
+}
+
+function renderTV(rand) {
+  const tilt = Math.floor(-4 + rand() * 8);
+  const hue = Math.floor(210 + rand() * 100);
+  return `
+  <g filter="url(#shadow)" transform="rotate(${tilt} 600 500)">
+    <rect x="270" y="260" rx="36" ry="36" width="660" height="400" fill="rgba(0,0,0,0.26)" stroke="rgba(255,255,255,0.14)" stroke-width="2" />
+    <rect x="290" y="280" rx="26" ry="26" width="620" height="360" fill="url(#panel)" />
+    <path d="M320 320c220-160 460-80 560 80" stroke="rgba(255,255,255,0.12)" stroke-width="14" stroke-linecap="round" />
+    <rect x="540" y="665" rx="10" ry="10" width="120" height="16" fill="rgba(255,255,255,0.16)" />
+    <path d="M510 680h180l-35 70H545z" fill="rgba(255,255,255,0.10)" />
+  </g>
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsla(${hue}, 70%, 68%, 0.16)" />
+      <stop offset="55%" stop-color="rgba(0,0,0,0.22)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0.06)" />
+    </linearGradient>
+  </defs>`;
+}
+
+function renderAccessory(rand) {
+  const tilt = Math.floor(-8 + rand() * 16);
+  const hue = Math.floor(210 + rand() * 120);
+  const isCable = rand() > 0.55;
+
+  return isCable
+    ? `
+  <g filter="url(#shadow)" transform="rotate(${tilt} 600 520)">
+    <path d="M360 610c120-160 360-160 480 0" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="18" stroke-linecap="round" />
+    <rect x="340" y="585" rx="18" ry="18" width="72" height="95" fill="url(#acc)" stroke="rgba(255,255,255,0.18)" stroke-width="2" />
+    <rect x="788" y="585" rx="18" ry="18" width="72" height="95" fill="url(#acc)" stroke="rgba(255,255,255,0.18)" stroke-width="2" />
+    <path d="M380 595v-30" stroke="rgba(255,255,255,0.28)" stroke-width="10" stroke-linecap="round" />
+    <path d="M820 595v-30" stroke="rgba(255,255,255,0.28)" stroke-width="10" stroke-linecap="round" />
+  </g>
+  <defs>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsla(${hue}, 60%, 70%, 0.22)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.26)" />
+    </linearGradient>
+  </defs>`
+    : `
+  <g filter="url(#shadow)" transform="rotate(${tilt} 600 520)">
+    <rect x="410" y="300" rx="46" ry="46" width="380" height="440" fill="url(#acc)" stroke="rgba(255,255,255,0.16)" stroke-width="2" />
+    <rect x="450" y="345" rx="36" ry="36" width="300" height="310" fill="rgba(0,0,0,0.18)" />
+    <path d="M460 370c160-110 310-60 390 60" stroke="rgba(255,255,255,0.12)" stroke-width="14" stroke-linecap="round" />
+    <rect x="520" y="670" rx="18" ry="18" width="160" height="26" fill="rgba(255,255,255,0.10)" />
+  </g>
+  <defs>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsla(${hue}, 60%, 70%, 0.20)" />
+      <stop offset="55%" stop-color="rgba(255,255,255,0.08)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.28)" />
+    </linearGradient>
+  </defs>`;
 }
 
 function buildSvg({ slug, name, category }) {
   const seed = hashToSeed(slug);
   const rand = mulberry32(seed);
 
-  const hueA = Math.floor(220 + rand() * 55); // blue/purple
-  const hueB = Math.floor(265 + rand() * 55); // purple/pink
+  // Category-tuned palette ranges (still seeded per product).
+  const baseHue =
+    category === "phones"
+      ? 225
+      : category === "laptops"
+        ? 210
+        : category === "audio"
+          ? 255
+          : category === "wearables"
+            ? 235
+            : category === "tvs"
+              ? 220
+              : 240;
+  const hueA = Math.floor(baseHue + rand() * 40);
+  const hueB = Math.floor(baseHue + 40 + rand() * 45);
   const satA = Math.floor(55 + rand() * 18);
   const satB = Math.floor(55 + rand() * 18);
   const lightA = Math.floor(18 + rand() * 10);
@@ -186,9 +361,27 @@ function buildSvg({ slug, name, category }) {
   const label = categoryLabel(category);
   const brandMark = "ZenVora";
 
-  // Slightly vary the silhouette scale and rotation per product.
-  const silhouetteScale = clamp(0.95 + rand() * 0.14, 0.92, 1.1);
-  const silhouetteRot = Math.floor(-6 + rand() * 12);
+  const bokehCount = Math.floor(6 + rand() * 8);
+  const bokeh = Array.from({ length: bokehCount }).map(() => {
+    const cx = Math.floor(80 + rand() * 1040);
+    const cy = Math.floor(80 + rand() * 740);
+    const r = Math.floor(18 + rand() * 90);
+    const o = (0.05 + rand() * 0.10).toFixed(3);
+    return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="rgba(255,255,255,${o})" />`;
+  });
+
+  const productRender =
+    category === "phones"
+      ? renderPhone(rand)
+      : category === "laptops"
+        ? renderLaptop(rand)
+        : category === "audio"
+          ? renderEarbuds(rand)
+          : category === "wearables"
+            ? renderWatch(rand)
+            : category === "tvs"
+              ? renderTV(rand)
+              : renderAccessory(rand);
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
@@ -214,10 +407,27 @@ function buildSvg({ slug, name, category }) {
         1 0 0 0 0
         0 1 0 0 0
         0 0 1 0 0
-        0 0 0 0.12 0" />
+        0 0 0 ${0.10 + rand() * 0.10} 0" />
     </filter>
     <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="18" />
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="18" result="blur" />
+      <feOffset in="blur" dx="0" dy="18" result="off" />
+      <feColorMatrix
+        in="off"
+        type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.35 0"
+        result="shadow"
+      />
+      <feMerge>
+        <feMergeNode in="shadow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
     </filter>
 
     <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
@@ -235,6 +445,10 @@ function buildSvg({ slug, name, category }) {
   <rect width="1200" height="900" fill="url(#glowA)" opacity="0.9" />
   <rect width="1200" height="900" fill="url(#glowB)" opacity="0.8" />
 
+  <g filter="url(#softBlur)">
+    ${bokeh.join("\n")}
+  </g>
+
   <g opacity="0.70" filter="url(#softBlur)">
     <circle cx="${blob1.cx}" cy="${blob1.cy}" r="${blob1.r}" fill="hsla(${accentHue}, ${accentSat}%, ${accentLight + 6}%, 0.25)" />
     <circle cx="${blob2.cx}" cy="${blob2.cy}" r="${blob2.r}" fill="hsla(${accentHue + 35}, ${accentSat}%, ${accentLight + 8}%, 0.22)" />
@@ -251,9 +465,7 @@ function buildSvg({ slug, name, category }) {
     <rect x="120" y="120" width="960" height="660" rx="44" ry="44" fill="url(#shine)" opacity="0.85" />
   </g>
 
-  <g transform="translate(0 0) rotate(${silhouetteRot} 600 450) scale(${silhouetteScale})" opacity="0.95">
-    ${iconSvg(category)}
-  </g>
+  ${productRender}
 
   <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" fill="rgba(255,255,255,0.92)">
     <text x="160" y="190" font-size="24" letter-spacing="0.14em" fill="rgba(255,255,255,0.68)">${label.toUpperCase()}</text>

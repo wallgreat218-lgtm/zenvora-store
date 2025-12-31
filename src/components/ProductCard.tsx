@@ -203,7 +203,14 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
           </div>
 
-          <p className="line-clamp-2 text-sm text-muted-foreground">{product.shortDescription}</p>
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            {product.highlights.slice(0, 2).map((h) => (
+              <li key={h} className="flex gap-2">
+                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-foreground/60" />
+                <span className="line-clamp-1">{h}</span>
+              </li>
+            ))}
+          </ul>
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

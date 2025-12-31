@@ -5669,9 +5669,265 @@ const baseProducts: Product[] = [
   }
 ];
 
+// Sample catalog specs (placeholder): generated for a consistent, realistic demo catalog.
+// These are NOT official manufacturer specifications.
+
+function hashToSeed(str: string) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function mulberry32(seed: number) {
+  return function () {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function pick<T>(rand: () => number, arr: T[]) {
+  return arr[Math.floor(rand() * arr.length)]!;
+}
+
+function int(rand: () => number, min: number, max: number) {
+  return Math.floor(min + rand() * (max - min + 1));
+}
+
+function maybe(rand: () => number, p = 0.5) {
+  return rand() < p;
+}
+
+function categoryLabel(category: Product["category"]) {
+  return category === "phones"
+    ? "phone"
+    : category === "laptops"
+      ? "laptop"
+      : category === "audio"
+        ? "audio"
+        : category === "tvs"
+          ? "TV"
+          : category === "wearables"
+            ? "wearable"
+            : "accessory";
+}
+
+function buildCatalogDetails(p: Product) {
+  const rand = mulberry32(hashToSeed(p.slug));
+
+  const tone = pick(rand, [
+    "premium",
+    "sleek",
+    "performance-focused",
+    "everyday-ready",
+    "creator-friendly",
+    "travel-ready",
+    "minimalist",
+    "studio-grade"
+  ]);
+
+  const commonPerks = pick(rand, [
+    "fast setup",
+    "smooth day-to-day performance",
+    "clean design",
+    "reliable battery life",
+    "balanced thermals",
+    "strong connectivity"
+  ]);
+
+  if (p.category === "phones") {
+    const display = (int(rand, 61, 69) / 10).toFixed(1);
+    const refresh = pick(rand, [90, 120, 144]);
+    const chipset = pick(rand, [
+      "8‑core 5G mobile platform",
+      "efficient 6nm-class mobile chipset",
+      "performance-tier 5G platform",
+      "balanced flagship-class SoC"
+    ]);
+    const ram = pick(rand, ["6GB", "8GB", "12GB"]);
+    const storage = pick(rand, ["128GB", "256GB", "512GB"]);
+    const battery = `${int(rand, 4600, 5400)}mAh`;
+    const charging = `${pick(rand, [33, 45, 67, 80, 100])}W fast charge (class)`;
+    const camera = `${pick(rand, [50, 64, 108])}MP main + ultra‑wide + depth/macro (unbranded)`;
+    const os = pick(rand, ["Android (modern release)", "Android (current generation)"]);
+    const connectivity = pick(rand, ["5G • Wi‑Fi 6 • BT 5.3", "5G • Wi‑Fi 6E • BT 5.3", "5G • Wi‑Fi 6 • BT 5.2"]);
+    const weight = `${int(rand, 176, 214)}g`;
+
+    const shortDescription = `${display}\" ${pick(rand, ["AMOLED-class", "OLED-class", "IPS-class"])}, ${refresh}Hz and ${charging} — a ${tone} ${p.brand} pick built for ${commonPerks}.`;
+    const highlights = [
+      `${refresh}Hz class display with vivid contrast`,
+      `${charging} + ${battery} class battery`,
+      `${camera} for crisp everyday shots`
+    ];
+    const specs: Record<string, string> = {
+      Display: `${display}\" ${pick(rand, ["FHD+", "FHD+ class"])}, ${refresh}Hz class`,
+      Chipset: chipset,
+      RAM: ram,
+      Storage: storage,
+      Battery: battery,
+      Camera: camera,
+      OS: os,
+      Connectivity: connectivity,
+      Weight: weight
+    };
+    const fullDescription = `${p.name} is a ${tone} ${categoryLabel(p.category)} with a smooth, high-refresh screen and tuned charging/battery balance for daily use. This listing uses sample catalog specs for shopping comparisons (not manufacturer-verified).`;
+
+    return { shortDescription, highlights, specs, fullDescription };
+  }
+
+  if (p.category === "laptops") {
+    const display = `${pick(rand, [13.3, 14, 15.6, 16]).toFixed(1)}\" ${pick(rand, ["IPS", "OLED", "Mini‑LED"])} (${pick(rand, ["FHD", "QHD", "3K"])})`;
+    const cpu = pick(rand, [
+      "Intel Core i5/i7 class",
+      "Intel Core Ultra class",
+      "AMD Ryzen 5/7 class",
+      "high-efficiency mobile CPU"
+    ]);
+    const gpu = pick(rand, ["Integrated graphics", "Integrated + creator acceleration", "RTX‑class discrete GPU (varies)"]);
+    const ram = pick(rand, ["8GB", "16GB", "32GB"]);
+    const storage = pick(rand, ["512GB SSD", "1TB SSD", "2TB SSD"]);
+    const battery = `${int(rand, 52, 86)}Wh`;
+    const weight = `${(int(rand, 120, 195) / 100).toFixed(2)}kg`;
+    const connectivity = pick(rand, ["Wi‑Fi 6E • BT 5.3", "Wi‑Fi 6 • BT 5.2", "Wi‑Fi 7-ready • BT 5.3"]);
+
+    const shortDescription = `${display}, ${cpu} + ${ram} — a ${tone} ${p.brand} laptop tuned for ${pick(rand, ["workflows", "school", "travel", "creative sessions", "everyday multitasking"])}.`;
+    const highlights = [
+      `${display} display for sharp text and media`,
+      `${ram} memory + ${storage} for fast load times`,
+      `${battery} class battery in a ${weight} chassis`
+    ];
+    const specs: Record<string, string> = {
+      Display: display,
+      CPU: cpu,
+      GPU: gpu,
+      RAM: ram,
+      Storage: storage,
+      Battery: `${battery} (class)`,
+      Connectivity: connectivity,
+      Weight: weight
+    };
+    const fullDescription = `${p.name} is a ${tone} laptop designed around responsive performance and a clean, premium feel. Specs shown are sample catalog values for comparison (not official manufacturer specs).`;
+    return { shortDescription, highlights, specs, fullDescription };
+  }
+
+  if (p.category === "audio") {
+    const driver = `${int(rand, 9, 12)}mm drivers`;
+    const anc = pick(rand, ["Adaptive ANC", "Hybrid ANC", "ANC with transparency"]);
+    const battery = `${int(rand, 6, 11)}h (buds) / ${int(rand, 22, 40)}h (case)`;
+    const codec = pick(rand, ["AAC/SBC", "AAC/SBC + high-bitrate mode", "AAC/SBC + multipoint"]);
+    const water = pick(rand, ["IPX4", "IPX5", "IP54"]);
+    const connectivity = pick(rand, ["Bluetooth 5.3", "Bluetooth 5.2", "Bluetooth 5.4"]);
+
+    const shortDescription = `${anc}, ${driver}, and ${battery} battery — a ${tone} listen built for commutes and focus.`;
+    const highlights = [
+      `${anc} for quieter environments`,
+      `${battery} class battery life`,
+      `${water} resistance + ${connectivity}`
+    ];
+    const specs: Record<string, string> = {
+      Drivers: driver,
+      "Noise control": anc,
+      Battery: `${battery} (class)`,
+      Codecs: codec,
+      "Water rating": water,
+      Connectivity: connectivity
+    };
+    const fullDescription = `${p.name} delivers a ${tone} sound profile with tuned noise control and reliable daily comfort. Specs shown are sample catalog values for comparison (not official).`;
+    return { shortDescription, highlights, specs, fullDescription };
+  }
+
+  if (p.category === "wearables") {
+    const shape = pick(rand, ["rectangular", "circular"]);
+    const display = `${pick(rand, [1.3, 1.4, 1.6]).toFixed(1)}\" ${pick(rand, ["OLED", "AMOLED", "LTPO OLED"])} (${shape})`;
+    const battery = `${int(rand, 18, 72)}h typical (class)`;
+    const sensors = pick(rand, [
+      "HR + SpO₂ + sleep tracking",
+      "HR + SpO₂ + stress + sleep",
+      "HR + SpO₂ + GPS + sleep"
+    ]);
+    const water = pick(rand, ["5ATM", "IP68", "5ATM + IP68"]);
+    const weight = `${int(rand, 28, 54)}g`;
+    const connectivity = pick(rand, ["BT 5.3 + NFC (varies)", "BT 5.2 + GPS", "BT 5.3 + GPS + Wi‑Fi (varies)"]);
+
+    const shortDescription = `${display}, ${sensors}, and ${battery} — a ${tone} wearable for training and everyday health insights.`;
+    const highlights = [
+      `${sensors} for daily insights`,
+      `${water} water resistance`,
+      `${battery} battery in a ${weight} body`
+    ];
+    const specs: Record<string, string> = {
+      Display: display,
+      Sensors: sensors,
+      Battery: battery,
+      "Water rating": water,
+      Connectivity: connectivity,
+      Weight: weight
+    };
+    const fullDescription = `${p.name} is a ${tone} wearable built around comfort, clear metrics, and all-day convenience. Specs shown are sample catalog values for comparison (not official).`;
+    return { shortDescription, highlights, specs, fullDescription };
+  }
+
+  if (p.category === "tvs") {
+    const size = `${pick(rand, [43, 50, 55, 65, 75])}\"`;
+    const panel = pick(rand, ["OLED", "QLED", "LED", "Mini‑LED"]);
+    const refresh = pick(rand, ["60Hz class", "120Hz class"]);
+    const hdr = pick(rand, ["HDR10/HLG", "HDR10/HLG + Dolby Vision (varies)", "HDR10+ (varies)"]);
+    const ports = pick(rand, ["4× HDMI + eARC + 2× USB (varies)", "3× HDMI + eARC + USB (varies)", "4× HDMI (2.1 varies) + USB (varies)"]);
+    const weight = `${int(rand, 8, 22)}kg (without stand)`;
+
+    const shortDescription = `${size} 4K ${panel} with ${hdr} and ${refresh} gaming features — a ${tone} living-room centerpiece.`;
+    const highlights = [
+      `${panel} panel for contrast and color`,
+      `${refresh} motion + low-latency mode`,
+      `${hdr} support (model-dependent)`
+    ];
+    const specs: Record<string, string> = {
+      Size: size,
+      Panel: panel,
+      Resolution: "3840×2160 (4K)",
+      Refresh: refresh,
+      HDR: hdr,
+      Ports: ports,
+      Weight: weight
+    };
+    const fullDescription = `${p.name} brings a ${tone} 4K picture with modern smart features and a clean bezel-forward look. Specs shown are sample catalog values for comparison (not official).`;
+    return { shortDescription, highlights, specs, fullDescription };
+  }
+
+  // accessories
+  const material = pick(rand, ["aluminum", "soft-touch polymer", "woven nylon", "vegan leather", "tempered glass"]);
+  const compatibility = pick(rand, ["USB‑C", "MagSafe‑style", "universal", "multi-device", "travel-friendly"]);
+  const weight = `${int(rand, 45, 380)}g`;
+  const shortDescription = `${tone[0]!.toUpperCase()}${tone.slice(1)} ${categoryLabel(p.category)} with ${material} feel and ${compatibility} compatibility—built for ${commonPerks}.`;
+  const highlights = [
+    `${material} finish with premium touch`,
+    `${compatibility} compatibility (varies by device)`,
+    `${weight} lightweight design`
+  ];
+  const specs: Record<string, string> = {
+    Material: material,
+    Compatibility: compatibility,
+    Weight: weight,
+    "What it does": pick(rand, ["Protects and enhances daily use", "Adds convenience and portability", "Improves setup and workflow"])
+  };
+  const fullDescription = `${p.name} is a ${tone} accessory designed to fit cleanly into everyday routines. Specs shown are sample catalog values for comparison (not official).`;
+  return { shortDescription, highlights, specs, fullDescription };
+}
+
 export const products: Product[] = baseProducts.map((p) => {
   const generated = `/products/generated/${p.slug}.png`;
-  return { ...p, image: generated, images: [generated, generated, generated] };
+  const details = buildCatalogDetails(p);
+  return {
+    ...p,
+    ...details,
+    description: details.shortDescription,
+    image: generated,
+    images: [generated, generated, generated]
+  };
 });
 
 export const rawProducts: Product[] = baseProducts;
