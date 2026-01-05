@@ -173,15 +173,15 @@
 .heroCardTop{position:relative; z-index:2}
 .heroCardCopy{
   /* Reserve space so the globe never overlaps the product media. */
-  min-height: 164px;
+  min-height: 200px;
 }
 .heroGlobe{
   position:absolute;
   /* Safe inset from the card edges (16–20px) */
-  top:18px;
-  right:18px;
-  width:136px;
-  height:136px;
+  top:20px;
+  right:20px;
+  width:156px;
+  height:156px;
   opacity:1;
   z-index:3;
   pointer-events:none;
@@ -210,8 +210,8 @@
 
 .globeRing{
   z-index: 2;
-  /* Ring visibly larger than the sphere */
-  transform: scale(1.14);
+  /* Ring stays static and defines the outer diameter */
+  transform: none;
 }
 
 .globeCore{
@@ -220,7 +220,7 @@
   transform-origin: 50% 50%;
   will-change: transform;
   /* Sphere sits fully inside the ring */
-  transform: scale(.76);
+  transform: scale(.72);
 }
 .heroKicker{color: rgba(238,242,255,.8); font-weight:700; letter-spacing:.02em}
 .heroCard h3{margin:8px 0 6px; font-size:1.4rem}
@@ -244,8 +244,8 @@
 }
 
 @keyframes spin{
-  from { transform: rotate(0deg) scale(.76); }
-  to   { transform: rotate(360deg) scale(.76); }
+  from { transform: rotate(0deg) scale(.72); }
+  to   { transform: rotate(360deg) scale(.72); }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -517,12 +517,12 @@
   .checkout{grid-template-columns:1fr}
   .nav{display:none}
   .brandLogo{height:64px}
-  .heroCardCopy{min-height: 150px}
-  .heroGlobe{width:124px; height:124px; top:16px; right:16px}
+  .heroCardCopy{min-height: 186px}
+  .heroGlobe{width:144px; height:144px; top:18px; right:18px}
 }
 @media (max-width: 560px){
   .grid{grid-template-columns:1fr}
   .brandLogo{height:56px}
-  .heroCardCopy{min-height: 140px}
-  .heroGlobe{width:116px; height:116px; top:16px; right:16px}
+  .heroCardCopy{min-height: 178px}
+  .heroGlobe{width:136px; height:136px; top:18px; right:18px}
 }
