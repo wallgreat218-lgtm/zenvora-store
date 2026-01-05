@@ -63,7 +63,7 @@
 .brand{display:flex; align-items:center; gap:12px}
 .brandLogo{
   /* Prominent on desktop, readable on mobile */
-  height:64px;
+  height:72px;
   width:auto;
   display:block;
   background: transparent;
@@ -171,13 +171,17 @@
   overflow:hidden;
 }
 .heroCardTop{position:relative; z-index:2}
+.heroCardCopy{
+  /* Reserve space so the globe never overlaps the product media. */
+  min-height: 164px;
+}
 .heroGlobe{
   position:absolute;
-  /* Keep it in the top-right corner region, away from product media */
-  top:6px;
-  right:8px;
-  width:140px;
-  height:140px;
+  /* Safe inset from the card edges (16–20px) */
+  top:18px;
+  right:18px;
+  width:136px;
+  height:136px;
   opacity:1;
   z-index:3;
   pointer-events:none;
@@ -206,7 +210,8 @@
 
 .globeRing{
   z-index: 2;
-  transform: scale(1.05);
+  /* Ring visibly larger than the sphere */
+  transform: scale(1.14);
 }
 
 .globeCore{
@@ -214,6 +219,8 @@
   animation: spin 18s linear infinite;
   transform-origin: 50% 50%;
   will-change: transform;
+  /* Sphere sits fully inside the ring */
+  transform: scale(.76);
 }
 .heroKicker{color: rgba(238,242,255,.8); font-weight:700; letter-spacing:.02em}
 .heroCard h3{margin:8px 0 6px; font-size:1.4rem}
@@ -237,8 +244,8 @@
 }
 
 @keyframes spin{
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from { transform: rotate(0deg) scale(.76); }
+  to   { transform: rotate(360deg) scale(.76); }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -509,11 +516,13 @@
   .contactGrid{grid-template-columns:1fr}
   .checkout{grid-template-columns:1fr}
   .nav{display:none}
-  .brandLogo{height:56px}
-  .heroGlobe{width:128px; height:128px; top:6px; right:8px}
+  .brandLogo{height:64px}
+  .heroCardCopy{min-height: 150px}
+  .heroGlobe{width:124px; height:124px; top:16px; right:16px}
 }
 @media (max-width: 560px){
   .grid{grid-template-columns:1fr}
-  .brandLogo{height:48px}
-  .heroGlobe{width:120px; height:120px; top:6px; right:8px}
+  .brandLogo{height:56px}
+  .heroCardCopy{min-height: 140px}
+  .heroGlobe{width:116px; height:116px; top:16px; right:16px}
 }

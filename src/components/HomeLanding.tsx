@@ -221,9 +221,11 @@ export default function HomeLanding() {
                   </div>
                 </div>
 
-                <div className={styles.heroKicker}>Today’s Spotlight</div>
-                <h3>{spotlight?.name ?? "Featured product"}</h3>
-                <p className={styles.muted}>{spotlight?.description ?? ""}</p>
+                <div className={styles.heroCardCopy}>
+                  <div className={styles.heroKicker}>Today’s Spotlight</div>
+                  <h3>{spotlight?.name ?? "Featured product"}</h3>
+                  <p className={styles.muted}>{spotlight?.description ?? ""}</p>
+                </div>
 
                 <div className={styles.heroSpotlightMedia} aria-hidden="true">
                   <img
