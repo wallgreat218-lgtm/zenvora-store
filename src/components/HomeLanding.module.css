@@ -63,7 +63,7 @@
 .brand{display:flex; align-items:center; gap:12px}
 .brandLogo{
   /* Prominent on desktop, readable on mobile */
-  height:56px;
+  height:64px;
   width:auto;
   display:block;
   background: transparent;
@@ -173,26 +173,14 @@
 .heroCardTop{position:relative; z-index:2}
 .heroGlobe{
   position:absolute;
-  top:14px;
-  right:14px;
-  width:156px;
-  height:156px;
+  /* Keep it in the top-right corner region, away from product media */
+  top:6px;
+  right:8px;
+  width:140px;
+  height:140px;
   opacity:1;
   z-index:3;
   pointer-events:none;
-}
-
-.heroGlobe::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:999px;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,122,24,.55), transparent 60%),
-    radial-gradient(circle at 70% 70%, rgba(24,182,255,.45), transparent 60%);
-  filter: blur(2px);
-  opacity: 1;
-  z-index: 0;
 }
 
 .globeStack{
@@ -202,7 +190,7 @@
   align-items:center;
   justify-content:center;
   z-index: 1;
-  filter: drop-shadow(0 18px 28px rgba(0,0,0,.35));
+  /* No glow/shadow behind the globe (per spec). */
 }
 
 .globeRing,
@@ -218,11 +206,12 @@
 
 .globeRing{
   z-index: 2;
+  transform: scale(1.05);
 }
 
 .globeCore{
   z-index: 1;
-  animation: spin 16s linear infinite;
+  animation: spin 18s linear infinite;
   transform-origin: 50% 50%;
   will-change: transform;
 }
@@ -248,8 +237,8 @@
 }
 
 @keyframes spin{
-  from { transform: rotate(0deg) scale(1.02); }
-  to   { transform: rotate(360deg) scale(1.02); }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -520,11 +509,11 @@
   .contactGrid{grid-template-columns:1fr}
   .checkout{grid-template-columns:1fr}
   .nav{display:none}
-  .brandLogo{height:44px}
-  .heroGlobe{width:140px; height:140px}
+  .brandLogo{height:56px}
+  .heroGlobe{width:128px; height:128px; top:6px; right:8px}
 }
 @media (max-width: 560px){
   .grid{grid-template-columns:1fr}
-  .brandLogo{height:40px}
-  .heroGlobe{width:132px; height:132px}
+  .brandLogo{height:48px}
+  .heroGlobe{width:120px; height:120px; top:6px; right:8px}
 }
