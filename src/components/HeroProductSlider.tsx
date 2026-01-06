@@ -27,10 +27,8 @@ function discounted(price: number) {
 export default function HeroProductSlider() {
   const slides: Slide[] = useMemo(
     () => [
-      { slug: "sony-bravia-55", badge: "Today’s Spotlight" },
-      { slug: "iphone-15-pro-max", badge: "Limited Offer" },
-      { slug: "lenovo-x1-carbon", badge: "Top Pick" },
-      { slug: "iphone-15" }
+      { slug: "iphone-15-pro-max", badge: "Featured Smartphone" },
+      { slug: "lenovo-x1-carbon", badge: "Featured Laptop" }
     ],
     []
   );
