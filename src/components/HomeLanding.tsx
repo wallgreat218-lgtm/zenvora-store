@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./HomeLanding.module.css";
+import HeroProductSlider from "./HeroProductSlider";
 import { products as storeProducts, type Product } from "../lib/products";
 import { getCart } from "../lib/cart";
 
@@ -52,14 +53,6 @@ export default function HomeLanding() {
       badge: "10% OFF"
     }));
   }, []);
-
-  const spotlight = useMemo(() => {
-    return (
-      catalog.find((p) => p.slug === "sony-bravia-55") ??
-      catalog.find((p) => p.type === "tv") ??
-      catalog[0]
-    );
-  }, [catalog]);
 
   const filtered = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
@@ -158,16 +151,14 @@ export default function HomeLanding() {
             <div className={`${styles.heroCopy} ${styles.reveal}`} data-reveal>
               <div className={styles.badge}>
                 <span className={styles.dot} />
-                Secure Checkout • Fast Support • Premium Devices
+                Secure checkout • Fast support • Premium devices
               </div>
 
-              <h1>
-                ZENVORA ELECTRONICS — <span className={styles.grad}>dark luxury</span> consumer tech.
-              </h1>
+              <h1>ZENVORA ELECTRONICS — premium tech, shipped fast.</h1>
 
               <p className={styles.muted}>
-                Browse iPhone 13–17 and Pro Max lineup, Lenovo premium laptops, and Sony Bravia 55" LED — with real
-                specs, configuration selectors, and a professional checkout flow.
+                Shop verified smartphones, laptops, TVs, and accessories with clear specs, secure checkout, and responsive
+                support.
               </p>
 
               <div className={styles.heroActions}>
@@ -198,59 +189,8 @@ export default function HomeLanding() {
               </div>
             </div>
 
-            <div className={`${styles.heroCard} ${styles.reveal}`} data-reveal>
-              <div className={styles.heroCardTop}>
-                <div className={styles.heroGlobe} aria-hidden="true">
-                  <div className={styles.globeStack}>
-                    <Image
-                      src="/brand/zenvora-globe-ring.png"
-                      alt=""
-                      width={150}
-                      height={150}
-                      className={styles.globeRing}
-                      priority
-                    />
-                    <Image
-                      src="/brand/zenvora-globe-core.png"
-                      alt=""
-                      width={150}
-                      height={150}
-                      className={styles.globeCore}
-                      priority
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.heroCardCopy}>
-                  <div className={styles.heroKicker}>Today’s Spotlight</div>
-                  <h3>{spotlight?.name ?? "Featured product"}</h3>
-                  <p className={styles.muted}>{spotlight?.description ?? ""}</p>
-                </div>
-
-                <div className={styles.heroSpotlightMedia} aria-hidden="true">
-                  <img
-                    className={styles.heroSpotlightImg}
-                    src={spotlight?.images?.[0] ?? "/products/sony-tv.svg"}
-                    alt=""
-                    loading="eager"
-                  />
-                </div>
-              </div>
-
-              <div className={styles.heroCardBottom}>
-                <div className={styles.price}>
-                  <div className={`${styles.muted} ${styles.small}`}>After 10% off</div>
-                  <div className={styles.big}>{spotlight ? fmt(discounted(spotlight.basePrice)) : "$0"}</div>
-                </div>
-                <Link
-                  className={`${styles.btn} ${styles.primary} ${styles.heroCardCta}`}
-                  href={spotlight ? `/product/${spotlight.slug}` : "/shop"}
-                >
-                  Select options
-                </Link>
-              </div>
-
-              <div className={styles.cardShine} aria-hidden="true" />
+            <div className={styles.reveal} data-reveal>
+              <HeroProductSlider />
             </div>
           </div>
         </section>
