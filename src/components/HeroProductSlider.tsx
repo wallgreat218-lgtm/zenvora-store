@@ -6,8 +6,6 @@ import Link from "next/link";
 import styles from "./HeroProductSlider.module.css";
 import { products } from "../lib/products";
 
-const DISCOUNT = 0.1;
-
 type Slide = {
   slug: string;
   badge?: string;
@@ -20,15 +18,11 @@ function fmt(n: number) {
   })}`;
 }
 
-function discounted(price: number) {
-  return +(price * (1 - DISCOUNT)).toFixed(2);
-}
-
 export default function HeroProductSlider() {
   const slides: Slide[] = useMemo(
     () => [
       { slug: "iphone-15-pro-max", badge: "Featured Smartphone" },
-      { slug: "lenovo-x1-carbon", badge: "Featured Laptop" }
+      { slug: "lenovo-thinkpad-x1-carbon", badge: "Featured Laptop" }
     ],
     []
   );
@@ -40,12 +34,12 @@ export default function HeroProductSlider() {
         if (!p) return null;
         return {
           slug: p.slug,
-          title: p.name,
-          specs: p.description,
-          imageSrc: p.images?.[0] ?? "/products/keyboard.svg",
-          imageAlt: p.name,
-          price: fmt(discounted(p.basePrice)),
-          badge: s.badge ?? "10% OFF"
+          title: p.title,
+          specs: p.subtitle,
+          imageSrc: p.images.primary,
+          imageAlt: p.title,
+          price: fmt(p.price),
+          badge: s.badge ?? "Featured"
         };
       })
       .filter(Boolean) as Array<{

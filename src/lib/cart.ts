@@ -1,5 +1,5 @@
-export type CartVariant = Record<string, string> & { color: string; storage: string };
-export type CartItem = { slug: string; quantity: number; variant: CartVariant };
+export type CartVariant = Record<string, string> & { color?: string; storage?: string };
+export type CartItem = { slug: string; quantity: number; variant?: CartVariant };
 
 const KEY_V2 = "zenvora_cart_v2";
 const KEY_V1 = "zenvora_cart_v1";
@@ -13,7 +13,8 @@ function emitCartChange(items: CartItem[]) {
   }
 }
 
-function normalizeVariant(variant: CartVariant) {
+function normalizeVariant(variant?: CartVariant) {
+  if (!variant) return {} as CartVariant;
   const entries = Object.entries(variant)
     .filter(([, v]) => typeof v === "string" && v.trim().length > 0)
     .map(([k, v]) => [k, v.trim()] as const)
@@ -21,7 +22,7 @@ function normalizeVariant(variant: CartVariant) {
   return Object.fromEntries(entries) as CartVariant;
 }
 
-function sameVariant(a: CartVariant, b: CartVariant) {
+function sameVariant(a?: CartVariant, b?: CartVariant) {
   const na = normalizeVariant(a);
   const nb = normalizeVariant(b);
   const ak = Object.keys(na);
@@ -48,13 +49,13 @@ export function getCart(): CartItem[] {
     const parsedV1 = JSON.parse(rawV1);
     if (!Array.isArray(parsedV1)) return [];
 
-    // Migrate legacy items (no variants) to a safe default.
+    // Migrate legacy items (no variants) to the new schema.
     const migrated: CartItem[] = parsedV1
       .filter((it: any) => it && typeof it.slug === "string" && typeof it.quantity === "number")
       .map((it: any) => ({
         slug: it.slug,
         quantity: it.quantity,
-        variant: { color: "Default", storage: "Default" }
+        variant: undefined
       }));
     saveCart(migrated);
     return migrated;
@@ -69,13 +70,10 @@ export function saveCart(items: CartItem[]) {
   emitCartChange(items);
 }
 
-export function addToCart(slug: string, variant: CartVariant, qty = 1) {
+export function addToCart(slug: string, variant?: CartVariant, qty = 1) {
   const cart = getCart();
-  if (!variant?.color || !variant?.storage) {
-    throw new Error("Cart variant must include color and storage");
-  }
-  const idx = cart.findIndex((c) => c.slug === slug && c.variant && sameVariant(c.variant, variant));
-  if (idx === -1) cart.push({ slug, quantity: qty, variant: normalizeVariant(variant) });
+  const idx = cart.findIndex((c) => c.slug === slug && sameVariant(c.variant, variant));
+  if (idx === -1) cart.push({ slug, quantity: qty, variant: Object.keys(normalizeVariant(variant)).length ? normalizeVariant(variant) : undefined });
   else cart[idx].quantity += qty;
   saveCart(cart);
 }

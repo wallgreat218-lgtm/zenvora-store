@@ -50,6 +50,22 @@
 
 .kicker{color: rgba(238,242,255,.80); font-weight:700; letter-spacing:.02em}
 
+.stockBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top: 6px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  color: rgba(238,242,255,.88);
+  font-size:.86rem;
+  width: fit-content;
+}
+
+.stockDot{width:8px; height:8px; border-radius:999px; background: #34d399; box-shadow: 0 0 0 4px rgba(52,211,153,.14)}
+
 .title{margin:8px 0 10px; font-size: clamp(1.6rem, 2.2vw, 2.2rem); line-height:1.1}
 
 .row{
@@ -84,6 +100,13 @@
 .save{color: rgba(24,182,255,.90); font-weight:800}
 
 .ctaRow{display:flex; gap:12px; margin-top:14px}
+
+.addedNote{
+  margin-top: 10px;
+  color: rgba(238,242,255,.86);
+  font-weight: 800;
+  font-size: .95rem;
+}
 
 .table{
   width:100%;

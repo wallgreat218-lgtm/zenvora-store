@@ -5,12 +5,10 @@ import styles from "../../components/HomeLanding.module.css";
 import { getCart, clearCart } from "../../lib/cart";
 import { products } from "../../lib/products";
 
-const DISCOUNT = 0.1;
-
 export default function CartPage() {
   const items = typeof window !== "undefined" ? getCart() : [];
   const detailed = items.map((it) => ({ ...it, product: products.find((p) => p.slug === it.slug) }));
-  const total = detailed.reduce((s, it) => s + (it.product ? it.product.basePrice * (1 - DISCOUNT) * it.quantity : 0), 0);
+  const total = detailed.reduce((s, it) => s + (it.product ? it.product.price * it.quantity : 0), 0);
 
   return (
     <StoreShell
@@ -27,10 +25,10 @@ export default function CartPage() {
             <div key={`${it.slug}-${JSON.stringify((it as any).variant ?? {})}`} className={styles.infoCard}>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "baseline" }}>
                 <div>
-                  <div style={{ fontWeight: 900 }}>{it.product?.name}</div>
+                  <div style={{ fontWeight: 900 }}>{it.product?.title}</div>
                   <div className={styles.muted}>
-                    {(it as any).variant
-                      ? `Color: ${(it as any).variant.color} • Storage: ${(it as any).variant.storage}`
+                    {(it as any).variant?.color || (it as any).variant?.storage
+                      ? `Color: ${(it as any).variant?.color ?? "—"} • Storage: ${(it as any).variant?.storage ?? "—"}`
                       : null}
                   </div>
                   {(it as any).variant ? (
@@ -43,7 +41,7 @@ export default function CartPage() {
                   ) : null}
                   <div className={styles.muted}>
                     Qty: {it.quantity} • Line: $
-                    {it.product ? (it.product.basePrice * (1 - DISCOUNT) * it.quantity).toFixed(2) : "0.00"}
+                    {it.product ? (it.product.price * it.quantity).toFixed(2) : "0.00"}
                   </div>
                 </div>
                 <Link className={`${styles.btn} ${styles.ghost}`} href={`/product/${it.slug}`}>
@@ -57,7 +55,7 @@ export default function CartPage() {
 
       <div className={styles.sectionHead} style={{ marginTop: 18 }}>
         <div>
-          <div className={styles.muted}>Subtotal (after 10% off)</div>
+          <div className={styles.muted}>Subtotal</div>
           <div style={{ fontWeight: 1000, fontSize: "1.4rem" }}>${total.toFixed(2)}</div>
         </div>
         <div style={{ display: "flex", gap: 10 }}>

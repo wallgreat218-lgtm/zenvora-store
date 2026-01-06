@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
 import styles from "../HomeLanding.module.css";
+import HeaderSearch from "./HeaderSearch";
 
 export default function StoreShell({
   title,
@@ -36,6 +38,9 @@ export default function StoreShell({
           </nav>
 
           <div className={styles.headerCta}>
+            <Suspense fallback={null}>
+              <HeaderSearch />
+            </Suspense>
             <Link className={`${styles.btn} ${styles.ghost}`} href="/faq">
               FAQ
             </Link>

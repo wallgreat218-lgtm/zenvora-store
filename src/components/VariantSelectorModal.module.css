@@ -1,0 +1,106 @@
+.backdrop{
+  position:fixed;
+  inset:0;
+  z-index:70;
+  display:grid;
+  place-items:center;
+}
+
+.backdropHit{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,.6);
+  border:0;
+}
+
+.modal{
+  position:relative;
+  width:min(560px, calc(100vw - 32px));
+  border-radius: 18px;
+  background: rgba(8,10,24,.92);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 24px 70px rgba(0,0,0,.55);
+  padding: 16px;
+  backdrop-filter: blur(14px);
+}
+
+.head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom: 12px;
+}
+
+.kicker{
+  color: rgba(238,242,255,.64);
+  font-size: .82rem;
+  letter-spacing: .02em;
+}
+
+.title{
+  font-weight: 1000;
+  font-size: 1.05rem;
+  margin-top: 2px;
+}
+
+.close{
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.05);
+  color: rgba(238,242,255,.9);
+  border-radius: 12px;
+  padding: 8px 10px;
+  cursor:pointer;
+}
+
+.section{margin-top: 12px;}
+.label{font-weight: 900; margin-bottom: 8px;}
+
+.options{display:flex; flex-wrap:wrap; gap:8px;}
+
+.opt{
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  color: rgba(238,242,255,.88);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor:pointer;
+  transition: .18s ease;
+}
+.opt:hover{background: rgba(255,255,255,.07);}
+.optActive{
+  background: linear-gradient(135deg, rgba(11,107,255,.22), rgba(24,182,255,.14));
+  border-color: rgba(24,182,255,.35);
+  color:#fff;
+}
+
+.footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top: 16px;
+}
+
+.ghostBtn{
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.03);
+  color: rgba(238,242,255,.88);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor:pointer;
+}
+
+.primaryBtn{
+  border: 1px solid rgba(24,182,255,.40);
+  background: linear-gradient(135deg, rgba(11,107,255,.95), rgba(24,182,255,.85));
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-weight: 900;
+  cursor:pointer;
+}
+
+.primaryBtn:disabled{
+  opacity: .55;
+  cursor:not-allowed;
+}

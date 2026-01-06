@@ -63,12 +63,12 @@
 .brand{display:flex; align-items:center; gap:12px}
 .brandLogo{
   /* Prominent on desktop, readable on mobile */
-  height:72px;
+  height:48px;
   width:auto;
   display:block;
   background: transparent;
   object-fit: contain;
-  filter: drop-shadow(0 8px 18px rgba(0,0,0,.35));
+  image-rendering: -webkit-optimize-contrast;
 }
 .brandText{
   font-weight: 1000;
@@ -85,7 +85,18 @@
 }
 .nav a:hover{background: rgba(255,255,255,.06); color:#fff}
 
-.headerCta{display:flex; gap:10px; align-items:center}
+.headerCta{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
+.searchWrap{width:min(320px, 36vw)}
+.search{
+  width:100%;
+  background: rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.12);
+  color: rgba(238,242,255,.92);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+.search::placeholder{color: rgba(238,242,255,.55)}
+.search:focus{outline:none; border-color: rgba(24,182,255,.36)}
 .pill{
   display:inline-flex; align-items:center; justify-content:center;
   min-width:22px; height:22px; padding:0 7px;
@@ -269,10 +280,31 @@
   margin-top: 12px;
 }
 .productImg{
+  position:absolute;
+  inset:0;
   width: 100%;
   height: 100%;
   object-fit: contain;
   display:block;
+  transition: opacity .2s ease;
+}
+.productImgPrimary{opacity: 1;}
+.productImgSecondary{opacity: 0;}
+.product:hover .productImgPrimary{opacity: 0;}
+.product:hover .productImgSecondary{opacity: 1;}
+
+.addedToast{
+  position:absolute;
+  top: 12px;
+  right: 12px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(24,182,255,.30);
+  background: rgba(11,107,255,.22);
+  color: rgba(238,242,255,.92);
+  font-size: .82rem;
+  font-weight: 900;
+  pointer-events:none;
 }
 .productFallback{
   position:absolute;
@@ -305,6 +337,18 @@
   border:1px solid rgba(11,107,255,.30);
   font-size:.82rem;
 }
+.stockBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  color: rgba(238,242,255,.88);
+  font-size:.82rem;
+}
+.stockDot{width:8px; height:8px; border-radius:999px; background: #34d399; box-shadow: 0 0 0 4px rgba(52,211,153,.14)}
 .orange{background: rgba(255,122,24,.16); border-color: rgba(255,122,24,.28);}
 .pTitle{font-weight:800; margin:10px 0 6px}
 .pDesc{margin:0 0 10px}
@@ -455,13 +499,13 @@
   .contactGrid{grid-template-columns:1fr}
   .checkout{grid-template-columns:1fr}
   .nav{display:none}
-  .brandLogo{height:64px}
+  .brandLogo{height:46px}
   .heroCardCopy{min-height: 186px}
   .heroGlobe{width:144px; height:144px; top:18px; right:18px}
 }
 @media (max-width: 560px){
   .grid{grid-template-columns:1fr}
-  .brandLogo{height:56px}
+  .brandLogo{height:44px}
   .heroCardCopy{min-height: 178px}
   .heroGlobe{width:136px; height:136px; top:18px; right:18px}
 }

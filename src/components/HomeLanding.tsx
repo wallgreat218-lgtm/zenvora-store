@@ -7,8 +7,8 @@ import styles from "./HomeLanding.module.css";
 import HeroProductSlider from "./HeroProductSlider";
 import { products as storeProducts, type Product } from "../lib/products";
 import { getCart } from "../lib/cart";
-
-const DISCOUNT = 0.1;
+import ProductCard from "./ProductCard";
+import HomeHeaderSearch from "./store/HomeHeaderSearch";
 
 type Filter = "all" | "phones" | "laptops" | "tv" | "accessories";
 
@@ -17,20 +17,9 @@ type CatalogProduct = Product & {
   badge: string;
 };
 
-function fmt(n: number) {
-  return `$${Number(n).toLocaleString(undefined, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2
-  })}`;
-}
-
-function discounted(price: number) {
-  return +(price * (1 - DISCOUNT)).toFixed(2);
-}
-
 function classifyProduct(product: Product): Exclude<Filter, "all"> {
   const slug = product.slug.toLowerCase();
-  const name = product.name.toLowerCase();
+  const name = product.title.toLowerCase();
 
   if (slug.includes("iphone") || name.includes("iphone")) return "phones";
   if (slug.includes("lenovo") || name.includes("lenovo") || name.includes("thinkpad") || name.includes("legion")) {
@@ -42,8 +31,6 @@ function classifyProduct(product: Product): Exclude<Filter, "all"> {
 
 export default function HomeLanding() {
   const [activeFilter, setActiveFilter] = useState<Filter>("all");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
   const catalog: CatalogProduct[] = useMemo(() => {
@@ -55,13 +42,11 @@ export default function HomeLanding() {
   }, []);
 
   const filtered = useMemo(() => {
-    const q = searchTerm.trim().toLowerCase();
     return catalog.filter((p) => {
       const byType = activeFilter === "all" ? true : p.type === activeFilter;
-      const bySearch = q ? p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) : true;
-      return byType && bySearch;
+      return byType;
     });
-  }, [catalog, activeFilter, searchTerm]);
+  }, [catalog, activeFilter]);
 
   useEffect(() => {
     const update = () => {
@@ -124,15 +109,7 @@ export default function HomeLanding() {
           </nav>
 
           <div className={styles.headerCta}>
-            <button
-              className={`${styles.btn} ${styles.ghost}`}
-              type="button"
-              aria-label="Search products"
-              onClick={() => setSearchOpen(true)}
-            >
-              <span className={styles.icon}>⌕</span>
-              Search
-            </button>
+            <HomeHeaderSearch />
 
             <Link className={`${styles.btn} ${styles.primary}`} href="/cart" aria-label="Open cart">
               <span className={styles.icon}>🛒</span>
@@ -236,48 +213,11 @@ export default function HomeLanding() {
             </div>
 
             <div className={styles.grid} aria-live="polite">
-              {filtered.map((p) => {
-                const now = discounted(p.basePrice);
-                return (
-                  <article key={p.slug} className={`${styles.product} ${styles.reveal}`} data-reveal>
-                    <div className={styles.pTop}>
-                      <span className={styles.tag}>{p.type.toUpperCase()}</span>
-                      <span className={`${styles.tag} ${styles.orange}`}>{p.badge}</span>
-                    </div>
-
-                    <div className={styles.productMedia}>
-                      <img
-                        className={styles.productImg}
-                        src={p.images?.[0] ?? "/products/keyboard.svg"}
-                        alt={p.name}
-                        loading="lazy"
-                      />
-                      <div className={styles.productFallback} aria-hidden="true" />
-                    </div>
-
-                    <div className={styles.pTitle}>{p.name}</div>
-                    <p className={`${styles.muted} ${styles.pDesc}`}>{p.description}</p>
-
-                    <div className={styles.pPrices}>
-                      <div>
-                        <div className={`${styles.muted} ${styles.small}`}>Now</div>
-                        <div className={styles.now}>{fmt(now)}</div>
-                        <div className={styles.was}>{fmt(p.basePrice)}</div>
-                      </div>
-                      <div className={styles.kbd}>-10%</div>
-                    </div>
-
-                    <div className={styles.pActions}>
-                      <Link className={`${styles.btn} ${styles.primary}`} href={`/product/${p.slug}`}>
-                        Select options
-                      </Link>
-                      <Link className={`${styles.btn} ${styles.ghost}`} href={`/product/${p.slug}`}>
-                        Details
-                      </Link>
-                    </div>
-                  </article>
-                );
-              })}
+              {filtered.map((p) => (
+                <div key={p.slug} className={styles.reveal} data-reveal>
+                  <ProductCard product={p} />
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -305,29 +245,6 @@ export default function HomeLanding() {
         </div>
       </footer>
 
-      <div className={`${styles.modal} ${searchOpen ? styles.showModal : ""}`} aria-hidden={!searchOpen}>
-        <div className={styles.modalBackdrop} onClick={() => setSearchOpen(false)} />
-        <div className={styles.modalCard} role="dialog" aria-modal="true" aria-label="Search products">
-          <div className={styles.modalHead}>
-            <div className={styles.modalTitle}>Search</div>
-            <button className={styles.x} type="button" onClick={() => setSearchOpen(false)}>
-              ✕
-            </button>
-          </div>
-          <div className={styles.modalBody}>
-            <input
-              className={styles.search}
-              placeholder="Search iPhone, Lenovo, TV..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              autoFocus={searchOpen}
-            />
-            <div className={`${styles.muted} ${styles.small}`} style={{ marginTop: 10 }}>
-              Tip: Try “iPhone”, “Lenovo”, “Bravia”.
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

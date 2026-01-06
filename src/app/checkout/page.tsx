@@ -10,8 +10,6 @@ import { products } from "../../lib/products";
 
 type Step = "address" | "shipping" | "payment" | "review" | "confirmation";
 
-const DISCOUNT = 0.1;
-
 function fmt(n: number) {
   return `$${Number(n).toLocaleString(undefined, {
     minimumFractionDigits: 0,
@@ -19,9 +17,6 @@ function fmt(n: number) {
   })}`;
 }
 
-function discounted(price: number) {
-  return +(price * (1 - DISCOUNT)).toFixed(2);
-}
 
 function digitsOnly(v: string) {
   return v.replace(/\D/g, "");
@@ -128,7 +123,7 @@ export default function CheckoutPage() {
   }, [cart]);
 
   const subtotal = useMemo(() => {
-    return detailed.reduce((s: number, it: any) => s + discounted(it.product.basePrice) * it.quantity, 0);
+    return detailed.reduce((s: number, it: any) => s + (it.product.price ?? 0) * it.quantity, 0);
   }, [detailed]);
 
   const shippingCost = shipping === "express" ? 24.99 : 0;
@@ -625,13 +620,15 @@ export default function CheckoutPage() {
                   <div key={`${it.slug}-${it.variant?.color ?? ""}-${it.variant?.storage ?? ""}`} className={styles.trust}>
                     <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
                       <div>
-                        <div style={{ fontWeight: 900 }}>{it.product?.name}</div>
+                        <div style={{ fontWeight: 900 }}>{it.product?.title}</div>
                         <div className={styles.muted}>
                           Qty: {it.quantity}
-                          {it.variant ? ` • ${it.variant.color} • ${it.variant.storage}` : ""}
+                          {it.variant?.color || it.variant?.storage
+                            ? ` • ${it.variant?.color ?? "—"} • ${it.variant?.storage ?? "—"}`
+                            : ""}
                         </div>
                       </div>
-                      <div style={{ fontWeight: 900 }}>{fmt(discounted(it.product?.basePrice ?? 0) * it.quantity)}</div>
+                      <div style={{ fontWeight: 900 }}>{fmt((it.product?.price ?? 0) * it.quantity)}</div>
                     </div>
                   </div>
                 ))}
@@ -681,7 +678,7 @@ export default function CheckoutPage() {
 
         <div className={`${styles.infoCard} ${c.summarySticky}`}>
           <h3 className={c.sectionTitle}>Order Summary</h3>
-          <div className={`${styles.muted} ${styles.small}`}>Prices reflect 10% off. Shipping updates in real-time.</div>
+          <div className={`${styles.muted} ${styles.small}`}>Shipping updates in real-time.</div>
 
           <div style={{ display: "grid", gap: 10, marginTop: 12 }}>
             {detailed.slice(0, 4).map((it: any) => (
@@ -691,14 +688,16 @@ export default function CheckoutPage() {
               >
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontWeight: 900, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {it.product?.name}
+                    {it.product?.title}
                   </div>
                   <div className={`${styles.muted} ${styles.small}`}>
                     Qty {it.quantity}
-                    {it.variant ? ` • ${it.variant.color} • ${it.variant.storage}` : ""}
+                    {it.variant?.color || it.variant?.storage
+                      ? ` • ${it.variant?.color ?? "—"} • ${it.variant?.storage ?? "—"}`
+                      : ""}
                   </div>
                 </div>
-                <div style={{ fontWeight: 900 }}>{fmt(discounted(it.product?.basePrice ?? 0) * it.quantity)}</div>
+                <div style={{ fontWeight: 900 }}>{fmt((it.product?.price ?? 0) * it.quantity)}</div>
               </div>
             ))}
             {detailed.length > 4 ? <div className={`${styles.muted} ${styles.small}`}>+ {detailed.length - 4} more item(s)</div> : null}
@@ -706,7 +705,7 @@ export default function CheckoutPage() {
 
           <div style={{ display: "grid", gap: 10, marginTop: 14 }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div className={styles.muted}>Subtotal (after 10%)</div>
+              <div className={styles.muted}>Subtotal</div>
               <div style={{ fontWeight: 900 }}>{fmt(subtotal)}</div>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
