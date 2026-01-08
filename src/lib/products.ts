@@ -22,8 +22,8 @@ export const products: Product[] = [
     compareAt: 749,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-12-pro-max-1.webp",
-      secondary: "/products/real/iphone-12-pro-max-2.webp"
+      primary: "/products/real/iphone-12-pro-max.webp.png",
+      secondary: "/products/real/iphone-12-pro-max.webp%202.png"
     },
     variants: {
       colors: ["Graphite", "Silver", "Gold", "Pacific Blue"],
@@ -39,8 +39,8 @@ export const products: Product[] = [
     compareAt: 699,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-13-front.webp",
-      secondary: "/products/real/iphone-13-back.webp"
+      primary: "/products/real/iphone-13-front.webp.png",
+      secondary: "/products/real/iphone-13-back.webp.png"
     },
     variants: {
       colors: ["Midnight", "Starlight", "Blue", "Pink", "Green", "Red"],
@@ -56,8 +56,8 @@ export const products: Product[] = [
     compareAt: 899,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-13-pro-max-front.webp",
-      secondary: "/products/real/iphone-13-pro-max-back.webp"
+      primary: "/products/real/iphone-13-pro-max-front.webp.png",
+      secondary: "/products/real/iphone-13-pro-max-back.webp.png"
     },
     variants: {
       colors: ["Graphite", "Silver", "Gold", "Sierra Blue", "Alpine Green"],
@@ -73,8 +73,8 @@ export const products: Product[] = [
     compareAt: 799,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-14-front.webp",
-      secondary: "/products/real/iphone-14-back.webp"
+      primary: "/products/real/iphone-14-front.webp.png",
+      secondary: "/products/real/iphone-14-back.webp.png"
     },
     variants: { colors: ["Black", "White", "Blue", "Purple"], storage: ["128GB", "256GB", "512GB"] },
     inStock: true
@@ -87,8 +87,8 @@ export const products: Product[] = [
     compareAt: 999,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-14-pro-max-front.webp",
-      secondary: "/products/real/iphone-14-pro-max-back.webp"
+      primary: "/products/real/iphone-14-pro-max-front.webp.png",
+      secondary: "/products/real/iphone-14-pro-max-back.webp.png"
     },
     variants: { colors: ["Space Black", "Silver", "Gold", "Deep Purple"], storage: ["128GB", "256GB", "512GB", "1TB"] },
     inStock: true
@@ -101,8 +101,8 @@ export const products: Product[] = [
     compareAt: 899,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-15-front.webp",
-      secondary: "/products/real/iphone-15-back.webp"
+      primary: "/products/real/iphone-15-front.webp.png",
+      secondary: "/products/real/iphone-15-back.webp.png"
     },
     variants: { colors: ["Black", "Blue", "Green", "Yellow", "Pink"], storage: ["128GB", "256GB", "512GB"] },
     inStock: true
@@ -115,8 +115,8 @@ export const products: Product[] = [
     compareAt: 1299,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-15-pro-max-front.webp",
-      secondary: "/products/real/iphone-15-pro-max-back.webp"
+      primary: "/products/real/iphone-15-pro-max-front.webp.png",
+      secondary: "/products/real/iphone-15-pro-max-back.webp.png"
     },
     variants: {
       colors: ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"],
@@ -132,8 +132,8 @@ export const products: Product[] = [
     compareAt: 999,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-16-front.webp",
-      secondary: "/products/real/iphone-16-back.webp"
+      primary: "/products/real/iphone-16-front.webp.png",
+      secondary: "/products/real/iphone-16-back.webp.png"
     },
     variants: { colors: ["Black", "White", "Blue", "Orange"], storage: ["128GB", "256GB", "512GB"] },
     inStock: true
@@ -146,8 +146,8 @@ export const products: Product[] = [
     compareAt: 1399,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-16-pro-max-front.webp",
-      secondary: "/products/real/iphone-16-pro-max-back.webp"
+      primary: "/products/real/iphone-16-pro-max-front.webp.png",
+      secondary: "/products/real/iphone-16-pro-max-back.webp.png"
     },
     variants: {
       colors: ["Titanium Black", "Titanium White", "Blue Titanium", "Desert Gold"],
@@ -163,8 +163,8 @@ export const products: Product[] = [
     compareAt: 1099,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-17-front.webp",
-      secondary: "/products/real/iphone-17-back.webp"
+      primary: "/products/real/iphone-17-front.webp.png",
+      secondary: "/products/real/iphone-17-back.webp.png"
     },
     variants: { colors: ["Midnight", "Arctic White", "Titanium Gray", "Gold"], storage: ["256GB", "512GB", "1TB"] },
     inStock: true
@@ -177,8 +177,8 @@ export const products: Product[] = [
     compareAt: 1599,
     category: "PHONE",
     images: {
-      primary: "/products/real/iphone-17-pro-max-1.webp",
-      secondary: "/products/real/iphone-17-pro-max-2.webp"
+      primary: "/products/real/iphone-17-pro-max-1.webp.png",
+      secondary: "/products/real/iphone-17-pro-max-2.webp.png"
     },
     variants: { colors: ["Titanium Graphite", "Titanium Gold", "Arctic Silver"], storage: ["512GB", "1TB", "2TB"] },
     inStock: true
@@ -191,8 +191,8 @@ export const products: Product[] = [
     compareAt: 2399,
     category: "LAPTOP",
     images: {
-      primary: "/products/real/lenovo-legion-16-1.webp",
-      secondary: "/products/real/lenovo-legion-16-2.webp"
+      primary: "/products/real/lenovo-legion-16-1.webp.png",
+      secondary: "/products/real/lenovo-legion-16-2.webp.png"
     },
     variants: { colors: ["Black"], storage: ["1TB", "2TB"] },
     inStock: true
@@ -205,8 +205,8 @@ export const products: Product[] = [
     compareAt: 2099,
     category: "LAPTOP",
     images: {
-      primary: "/products/real/lenovo-thinkpad-x1-carbon-1.webp",
-      secondary: "/products/real/lenovo-thinkpad-x1-carbon-2.webp"
+      primary: "/products/real/lenovo-thinkpad-x1-carbon-1.webp.png",
+      secondary: "/products/real/lenovo-thinkpad-x1-carbon-2.webp.png"
     },
     variants: { colors: ["Black"], storage: ["512GB", "1TB"] },
     inStock: true
@@ -219,8 +219,8 @@ export const products: Product[] = [
     compareAt: 1199,
     category: "TV",
     images: {
-      primary: "/products/real/sony-bravia-55-led-1.webp",
-      secondary: "/products/real/sony-bravia-55-led-2.webp"
+      primary: "/products/real/sony-bravia-55-led-1.webp.png",
+      secondary: "/products/real/sony-bravia-55-led-2.webp.png"
     },
     inStock: true
   }
