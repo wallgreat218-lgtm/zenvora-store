@@ -25,7 +25,8 @@ function classifyProduct(slug: string, title: string): Exclude<Category, "all"> 
 }
 
 function normalizeCategory(v: unknown): Category {
-  if (v === "phones" || v === "laptops" || v === "tv") return v;
+  const raw = Array.isArray(v) ? v[0] : v;
+  if (raw === "phones" || raw === "laptops" || raw === "tv") return raw;
   return "all";
 }
 
@@ -33,11 +34,12 @@ export default function Shop({
   searchParams
 }: {
   searchParams?: {
-    q?: string;
-    category?: string;
+    q?: string | string[];
+    category?: string | string[];
   };
 }) {
-  const qRaw = (searchParams?.q ?? "").trim();
+  const qParam = Array.isArray(searchParams?.q) ? searchParams?.q?.[0] : searchParams?.q;
+  const qRaw = (qParam ?? "").trim();
   const q = qRaw.toLowerCase();
   const category = normalizeCategory(searchParams?.category);
 
