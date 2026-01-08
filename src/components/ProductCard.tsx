@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { addToCart } from "../lib/cart";
 import type { Product } from "../lib/products";
-import VariantSelectorModal, { type SelectedOptions } from "./VariantSelectorModal";
+import SelectOptionsModal, { type SelectedOptions } from "./SelectOptionsModal";
+import AddedToCartModal from "./AddedToCartModal";
 import styles from "./HomeLanding.module.css";
 
 function fmt(n: number) {
@@ -24,30 +26,17 @@ function classify(product: Product) {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
+  const router = useRouter();
   const hasVariants = Boolean((product.variants?.colors?.length ?? 0) > 0 || (product.variants?.storage?.length ?? 0) > 0);
   const primary = product.images.primary;
   const secondary = product.images.secondary;
 
   const [showOptions, setShowOptions] = useState(false);
-  const [added, setAdded] = useState(false);
-  const [addedTimer, setAddedTimer] = useState<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (addedTimer) window.clearTimeout(addedTimer);
-    };
-  }, [addedTimer]);
-
-  function flashAdded() {
-    setAdded(true);
-    if (addedTimer) window.clearTimeout(addedTimer);
-    const t = window.setTimeout(() => setAdded(false), 1400);
-    setAddedTimer(t);
-  }
+  const [showAddedModal, setShowAddedModal] = useState(false);
 
   function handleAddDirect() {
     addToCart(product.slug, undefined, 1);
-    flashAdded();
+    setShowAddedModal(true);
   }
 
   function handleConfirm(opts: SelectedOptions) {
@@ -56,7 +45,7 @@ export default function ProductCard({ product }: { product: Product }) {
     if (opts.storage) v.storage = opts.storage;
     addToCart(product.slug, Object.keys(v).length ? v : undefined, 1);
     setShowOptions(false);
-    flashAdded();
+    setShowAddedModal(true);
   }
 
   const tag = classify(product);
@@ -78,7 +67,6 @@ export default function ProductCard({ product }: { product: Product }) {
           <img className={`${styles.productImg} ${styles.productImgPrimary}`} src={primary} alt={product.title} loading="lazy" />
           <img className={`${styles.productImg} ${styles.productImgSecondary}`} src={secondary} alt={product.title} loading="lazy" />
           <div className={styles.productFallback} aria-hidden="true" />
-          {added ? <div className={styles.addedToast}>Added</div> : null}
         </div>
 
         <div className={styles.pTitle}>{product.title}</div>
@@ -110,8 +98,24 @@ export default function ProductCard({ product }: { product: Product }) {
       </div>
 
       {hasVariants ? (
-        <VariantSelectorModal open={showOptions} product={product} onClose={() => setShowOptions(false)} onConfirm={handleConfirm} />
+        <SelectOptionsModal open={showOptions} product={product} onClose={() => setShowOptions(false)} onConfirm={handleConfirm} />
       ) : null}
+
+      <AddedToCartModal
+        open={showAddedModal}
+        onClose={() => {
+          setShowAddedModal(false);
+          setShowOptions(false);
+        }}
+        onCheckout={() => {
+          setShowAddedModal(false);
+          setShowOptions(false);
+          router.push("/checkout");
+        }}
+        productTitle={product.title}
+        productImage={primary}
+        price={fmt(product.price)}
+      />
     </article>
   );
 }
