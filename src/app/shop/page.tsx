@@ -26,7 +26,8 @@ function classifyProduct(slug: string, title: string): Exclude<Category, "all"> 
 
 function normalizeCategory(v: unknown): Category {
   const raw = Array.isArray(v) ? v[0] : v;
-  if (raw === "phones" || raw === "laptops" || raw === "tv") return raw;
+  const s = typeof raw === "string" ? raw.trim().toLowerCase() : "";
+  if (s === "phones" || s === "laptops" || s === "tv") return s;
   return "all";
 }
 
