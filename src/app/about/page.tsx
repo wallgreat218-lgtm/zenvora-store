@@ -5,7 +5,7 @@ export default function AboutPage() {
   return (
     <StoreShell
       title="About Zenvora Electronics"
-      subtitle="A premium, global-ready consumer electronics storefront."
+      subtitle="Zenvora Electronics is a US-based online electronics store focused on providing reliable devices, clear product details, and a smooth checkout experience. We prioritize secure payments, transparent policies, and responsive customer support."
     >
       <p style={{ marginTop: 0 }}>
         Zenvora Electronics curates phones, laptops, and TVs with a focus on clear pricing, fast dispatch, and a

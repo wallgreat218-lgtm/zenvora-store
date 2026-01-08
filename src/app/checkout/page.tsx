@@ -187,8 +187,7 @@ export default function CheckoutPage() {
     if (!a.lastName.trim()) e.lastName = "Last name is required.";
     if (!a.email.trim()) e.email = "Email is required.";
     else if (!isEmail(a.email)) e.email = "Enter a valid email address.";
-    if (!a.phone.trim()) e.phone = "Phone number is required.";
-    else if (!isPhone(a.phone)) e.phone = "Enter a valid phone number (10–15 digits).";
+    if (a.phone.trim() && !isPhone(a.phone)) e.phone = "Enter a valid phone number (10–15 digits).";
     if (!a.line1.trim()) e.line1 = "Street address is required.";
     if (!a.city.trim()) e.city = "City is required.";
     if (!a.state.trim()) e.state = "State/Province is required.";

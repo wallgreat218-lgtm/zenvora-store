@@ -221,7 +221,9 @@ export default function HomeLanding() {
           <div className={styles.footerBrand}>
             <ZenvoraLogo className={styles.footerLogo} />
             <div className={`${styles.muted} ${styles.small}`}>
-              © {new Date().getFullYear()} Zenvora Electronics. All rights reserved.
+              © 2026 Zenvora Electronics LLC. All rights reserved.
+              <br />
+              Employee: Fahad Ali — <a href="mailto:fahadchandio622@gmail.com">fahadchandio622@gmail.com</a>
             </div>
           </div>
           <div className={styles.footerLinks}>
