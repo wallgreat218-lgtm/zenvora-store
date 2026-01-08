@@ -68,21 +68,30 @@ export default function HomeLanding() {
   }, []);
 
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    if (els.length === 0) return;
+    let io: IntersectionObserver | null = null;
+    const raf = window.requestAnimationFrame(() => {
+      const els = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+      if (els.length === 0) return;
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) e.target.classList.add(styles.show);
-        }
-      },
-      { threshold: 0.1 }
-    );
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) e.target.classList.add(styles.show);
+          }
+        },
+        { threshold: 0.1 }
+      );
 
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
+      for (const el of els) {
+        if (!el.classList.contains(styles.show)) io.observe(el);
+      }
+    });
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      io?.disconnect();
+    };
+  }, [activeFilter, filtered.length]);
 
   return (
     <div className={styles.shell}>
