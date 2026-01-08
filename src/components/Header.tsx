@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import styles from "./HomeLanding.module.css";
+import ZenvoraLogo from "./ZenvoraLogo";
 
 export default function Header() {
   const pathname = usePathname();
@@ -15,14 +15,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={`${styles.container} ${styles.headerInner}`}>
         <Link className={styles.brand} href="/" aria-label="Zenvora Electronics Home">
-          <Image
-            className={styles.brandLogo}
-            src="/brand/zenvora-logo.png"
-            alt="Zenvora Electronics"
-            width={180}
-            height={60}
-            priority
-          />
+          <ZenvoraLogo className={styles.brandLogo} />
         </Link>
 
         <nav className={styles.nav}>

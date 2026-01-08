@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Suspense } from "react";
 import styles from "../HomeLanding.module.css";
 import HeaderSearch from "./HeaderSearch";
+import ZenvoraLogo from "../ZenvoraLogo";
 
 export default function StoreShell({
   title,
@@ -20,14 +20,7 @@ export default function StoreShell({
       <header className={styles.header}>
         <div className={`${styles.container} ${styles.headerInner}`}>
           <Link className={styles.brand} href="/" aria-label="Zenvora Electronics Home">
-            <Image
-              className={styles.brandLogo}
-              src="/brand/zenvora-logo.png"
-              alt="Zenvora Electronics"
-              width={180}
-              height={60}
-              priority
-            />
+            <ZenvoraLogo className={styles.brandLogo} />
           </Link>
 
           <nav className={styles.nav}>
@@ -69,13 +62,7 @@ export default function StoreShell({
       <footer className={styles.footer}>
         <div className={`${styles.container} ${styles.footerInner}`}>
           <div className={styles.footerBrand}>
-            <Image
-              className={styles.footerLogo}
-              src="/brand/zenvora-logo.png"
-              alt="Zenvora Electronics"
-              width={160}
-              height={52}
-            />
+            <ZenvoraLogo className={styles.footerLogo} />
             <div className={`${styles.muted} ${styles.small}`}>
               © {new Date().getFullYear()} Zenvora Electronics. All rights reserved.
             </div>

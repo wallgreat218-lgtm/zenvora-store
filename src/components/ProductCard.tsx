@@ -68,7 +68,9 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className={styles.stockBadge}>
             <span className={styles.stockDot} /> In stock
           </span>
-        ) : null}
+        ) : (
+          <span className={`${styles.stockBadge} ${styles.orange}`}>Out of stock</span>
+        )}
       </div>
 
       <Link href={`/product/${product.slug}`} aria-label={`View ${product.title}`}>

@@ -3,6 +3,13 @@ import ProductCard from "../../components/ProductCard";
 import StoreShell from "../../components/store/StoreShell";
 import styles from "../../components/HomeLanding.module.css";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Shop",
+  description: "Browse premium smartphones, laptops, TVs, and accessories with clear pricing and fast support."
+};
+
 export default function Shop({ searchParams }: { searchParams?: { q?: string } }) {
   const q = (searchParams?.q ?? "").trim().toLowerCase();
   const filtered = q

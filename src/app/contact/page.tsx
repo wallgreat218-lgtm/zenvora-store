@@ -1,6 +1,13 @@
 import Link from "next/link";
 import StoreShell from "../../components/store/StoreShell";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Contact Zenvora Electronics support for order questions, shipping, and policy help."
+};
+
 export default function ContactPage() {
   return (
     <StoreShell title="Contact" subtitle="Fast support, clear answers, and policy links in one place.">

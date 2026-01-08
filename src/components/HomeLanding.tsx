@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import styles from "./HomeLanding.module.css";
 import HeroProductSlider from "./HeroProductSlider";
 import { products as storeProducts, type Product } from "../lib/products";
 import { getCart } from "../lib/cart";
 import ProductCard from "./ProductCard";
 import HomeHeaderSearch from "./store/HomeHeaderSearch";
+import ZenvoraLogo from "./ZenvoraLogo";
 
 type Filter = "all" | "phones" | "laptops" | "tv" | "accessories";
 
@@ -91,14 +91,7 @@ export default function HomeLanding() {
       <header className={styles.header}>
         <div className={`${styles.container} ${styles.headerInner}`}>
           <Link className={styles.brand} href="/#top" aria-label="Zenvora Electronics Home">
-            <Image
-              className={styles.brandLogo}
-              src="/brand/zenvora-logo.png"
-              alt="Zenvora Electronics"
-              width={180}
-              height={60}
-              priority
-            />
+            <ZenvoraLogo className={styles.brandLogo} />
           </Link>
 
           <nav className={styles.nav}>
@@ -226,13 +219,7 @@ export default function HomeLanding() {
       <footer className={styles.footer}>
         <div className={`${styles.container} ${styles.footerInner}`}>
           <div className={styles.footerBrand}>
-            <Image
-              className={styles.footerLogo}
-              src="/brand/zenvora-logo.png"
-              alt="Zenvora Electronics"
-              width={160}
-              height={52}
-            />
+            <ZenvoraLogo className={styles.footerLogo} />
             <div className={`${styles.muted} ${styles.small}`}>
               © {new Date().getFullYear()} Zenvora Electronics. All rights reserved.
             </div>
