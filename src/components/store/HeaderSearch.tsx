@@ -18,11 +18,12 @@ export default function HeaderSearch() {
 
   const nextHref = useMemo(() => {
     const v = value.trim();
-    if (!v) return "/shop";
-    const sp = new URLSearchParams();
-    sp.set("q", v);
-    return `/shop?${sp.toString()}`;
-  }, [value]);
+    const sp = new URLSearchParams(searchParams.toString());
+    if (!v) sp.delete("q");
+    else sp.set("q", v);
+    const qs = sp.toString();
+    return qs ? `/shop?${qs}` : "/shop";
+  }, [value, searchParams]);
 
   useEffect(() => {
     if (pathname !== "/shop") return;

@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Browse premium smartphones, laptops, TVs, and accessories with clear pricing and fast support."
 };
 
+export const dynamic = "force-dynamic";
+
 type Category = "all" | "phones" | "laptops" | "tv";
 
 function classifyProduct(slug: string, title: string): Exclude<Category, "all"> | "other" {
